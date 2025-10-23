@@ -7,6 +7,7 @@ import { WorkExperience } from "@/components/WorkExperience";
 import { SkillTree } from "@/components/SkillTree";
 import { Endorsements } from "@/components/Endorsements";
 import { Resume } from "@/components/Resume";
+import { Competitions } from "@/components/Competitions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
@@ -151,6 +152,13 @@ const Index = () => {
     setDialogOpen(true);
   };
 
+  const handleCompetitionProjectClick = (projectId: number) => {
+    const project = portfolioItems.find(item => item.id === projectId);
+    if (project) {
+      handleProjectClick(project);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -179,6 +187,13 @@ const Index = () => {
                   className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4"
                 >
                   Skill Trees
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="competitions"
+                  className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4"
+                  data-testid="tab-competitions"
+                >
+                  Competitions
                 </TabsTrigger>
                 <TabsTrigger 
                   value="endorsements"
@@ -222,6 +237,10 @@ const Index = () => {
 
             <TabsContent value="skills" className="py-12">
               <SkillTree />
+            </TabsContent>
+
+            <TabsContent value="competitions" className="py-12">
+              <Competitions onProjectClick={handleCompetitionProjectClick} />
             </TabsContent>
 
             <TabsContent value="endorsements" className="py-12">
