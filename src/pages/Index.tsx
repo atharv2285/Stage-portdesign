@@ -8,6 +8,7 @@ import { SkillTree } from "@/components/SkillTree";
 import { Endorsements } from "@/components/Endorsements";
 import { Resume } from "@/components/Resume";
 import { Competitions } from "@/components/Competitions";
+import { ExternalProfiles } from "@/components/ExternalProfiles";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
@@ -208,6 +209,13 @@ const Index = () => {
                 >
                   Resume
                 </TabsTrigger>
+                <TabsTrigger 
+                  value="profiles"
+                  className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4"
+                  data-testid="tab-profiles"
+                >
+                  Linked Profiles
+                </TabsTrigger>
               </TabsList>
               
               <Button variant="ghost" size="sm" className="gap-2">
@@ -249,6 +257,10 @@ const Index = () => {
 
             <TabsContent value="resume" className="py-12">
               <Resume />
+            </TabsContent>
+
+            <TabsContent value="profiles" className="py-12">
+              <ExternalProfiles />
             </TabsContent>
           </Tabs>
         </div>

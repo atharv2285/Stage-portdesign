@@ -7,7 +7,7 @@ export const Header = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <h1 className="text-2xl font-bold">Portfolio</h1>
+            <h1 className="text-2xl font-bold">Stage</h1>
             <nav className="hidden md:flex items-center gap-6">
               <a href="#" className="text-sm font-medium hover:text-accent transition-colors">Shots</a>
               <a href="#" className="text-sm font-medium hover:text-accent transition-colors">Designers</a>
