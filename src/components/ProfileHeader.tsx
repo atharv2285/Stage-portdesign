@@ -44,12 +44,39 @@ export const ProfileHeader = () => {
               </div>
             </div>
 
-            <div className="hidden lg:block">
-              <img 
-                src={heroGraphic} 
-                alt="Creative design graphic" 
-                className="w-96 h-96 object-contain animate-float"
-              />
+            <div className="hidden lg:block perspective-1000">
+              <div className="flip-card w-96 h-96 cursor-pointer" data-testid="card-about-flip">
+                <div className="flip-card-inner w-full h-full relative transition-transform duration-700 transform-style-3d">
+                  {/* Front Side - Colorful Graphic */}
+                  <div className="flip-card-front absolute inset-0 backface-hidden rounded-2xl overflow-hidden shadow-2xl border-4 border-primary/20">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 animate-gradient-shift"></div>
+                    <img 
+                      src={heroGraphic} 
+                      alt="Creative design graphic" 
+                      className="absolute inset-0 w-full h-full object-contain p-8 mix-blend-overlay animate-float"
+                    />
+                    <div className="absolute bottom-6 left-6 right-6 text-white">
+                      <p className="text-xl font-bold drop-shadow-lg">Hover to know me!</p>
+                    </div>
+                  </div>
+                  
+                  {/* Back Side - About Me */}
+                  <div className="flip-card-back absolute inset-0 backface-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 shadow-2xl p-8 flex flex-col justify-center items-center text-center rotate-y-180 border-4 border-primary/40">
+                    <div className="space-y-6">
+                      <div className="text-6xl mb-4">👋</div>
+                      <h3 className="text-3xl font-bold text-white mb-4">About Me</h3>
+                      <p className="text-white/90 text-lg leading-relaxed max-w-sm">
+                        Hi! I'm <span className="text-purple-300 font-semibold">Atharv</span>. I love building AI-powered apps, tinkering with drones, and turning wild ideas into real projects. When I'm not coding, you'll find me exploring startups or reading about tech trends.
+                      </p>
+                      <div className="flex gap-2 justify-center mt-6">
+                        <span className="px-3 py-1 bg-purple-500/30 rounded-full text-sm text-purple-200">AI Enthusiast</span>
+                        <span className="px-3 py-1 bg-pink-500/30 rounded-full text-sm text-pink-200">Drone Builder</span>
+                        <span className="px-3 py-1 bg-orange-500/30 rounded-full text-sm text-orange-200">Innovator</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
