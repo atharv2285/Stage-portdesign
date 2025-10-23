@@ -16,8 +16,10 @@ export const ProfileHeader = () => {
                   className="w-24 h-24 rounded-full object-cover border-4 border-border"
                 />
                 <div className="flex-1">
-                  <h1 className="text-4xl font-bold mb-2">Stage</h1>
-                  <p className="text-xl text-muted-foreground mb-6">👽 Visualizing the Craziest Ideas</p>
+                  <h1 className="text-2xl font-light mb-2 text-muted-foreground">Atharv Shukla</h1>
+                  <p className="text-3xl font-bold mb-6" style={{ fontFamily: 'Manrope, sans-serif', fontWeight: 800 }}>
+                    👽 Visualizing the Craziest Ideas
+                  </p>
                   
                   <div className="flex items-center gap-8 mb-6">
                     <div>
@@ -35,7 +37,7 @@ export const ProfileHeader = () => {
                   </div>
                   
                   <div className="flex items-center gap-3">
-                    <Button variant="portfolio" size="lg">Get in touch</Button>
+                    <Button variant="portfolio" size="lg">Message</Button>
                     <Button variant="outline" size="lg">Follow</Button>
                   </div>
                 </div>
