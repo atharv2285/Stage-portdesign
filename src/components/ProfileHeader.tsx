@@ -16,7 +16,7 @@ export const ProfileHeader = () => {
                   className="w-24 h-24 rounded-full object-cover border-4 border-border"
                 />
                 <div className="flex-1">
-                  <h1 className="text-4xl font-bold mb-2">Geex Arts</h1>
+                  <h1 className="text-4xl font-bold mb-2">Stage</h1>
                   <p className="text-xl text-muted-foreground mb-6">👽 Visualizing the Craziest Ideas</p>
                   
                   <div className="flex items-center gap-8 mb-6">

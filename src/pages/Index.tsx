@@ -1,6 +1,9 @@
 import { Header } from "@/components/Header";
 import { ProfileHeader } from "@/components/ProfileHeader";
 import { PortfolioItem } from "@/components/PortfolioItem";
+import { WorkExperience } from "@/components/WorkExperience";
+import { SkillTree } from "@/components/SkillTree";
+import { Endorsements } from "@/components/Endorsements";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
@@ -29,32 +32,32 @@ const Index = () => {
       
       <div className="border-b border-border">
         <div className="container mx-auto px-6">
-          <Tabs defaultValue="work" className="w-full">
+          <Tabs defaultValue="projects" className="w-full">
             <div className="flex items-center justify-between">
               <TabsList className="bg-transparent border-none h-auto p-0">
                 <TabsTrigger 
-                  value="work" 
+                  value="projects" 
                   className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4"
                 >
-                  Work
+                  Projects
                 </TabsTrigger>
                 <TabsTrigger 
-                  value="services"
+                  value="experience"
                   className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4"
                 >
-                  Services
+                  Work Experience
                 </TabsTrigger>
                 <TabsTrigger 
-                  value="collections"
+                  value="skills"
                   className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4"
                 >
-                  Collections
+                  Skill Trees
                 </TabsTrigger>
                 <TabsTrigger 
-                  value="about"
+                  value="endorsements"
                   className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4"
                 >
-                  About
+                  Endorsements
                 </TabsTrigger>
               </TabsList>
               
@@ -63,7 +66,7 @@ const Index = () => {
               </Button>
             </div>
 
-            <TabsContent value="work" className="py-12">
+            <TabsContent value="projects" className="py-12">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {portfolioItems.map((item) => (
                   <PortfolioItem
@@ -76,32 +79,16 @@ const Index = () => {
               </div>
             </TabsContent>
 
-            <TabsContent value="services" className="py-12">
-              <div className="text-center py-20">
-                <h2 className="text-3xl font-bold mb-4">Services</h2>
-                <p className="text-muted-foreground">Check out our design services and offerings.</p>
-              </div>
+            <TabsContent value="experience" className="py-12">
+              <WorkExperience />
             </TabsContent>
 
-            <TabsContent value="collections" className="py-12">
-              <div className="text-center py-20">
-                <h2 className="text-3xl font-bold mb-4">Collections</h2>
-                <p className="text-muted-foreground">Curated collections of our best work.</p>
-              </div>
+            <TabsContent value="skills" className="py-12">
+              <SkillTree />
             </TabsContent>
 
-            <TabsContent value="about" className="py-12">
-              <div className="max-w-3xl mx-auto">
-                <h2 className="text-3xl font-bold mb-6">About Geex Arts</h2>
-                <p className="text-lg text-muted-foreground mb-4">
-                  We specialize in creating stunning mobile app designs that push the boundaries of creativity. 
-                  Our mission is to visualize the craziest ideas and bring them to life through innovative design solutions.
-                </p>
-                <p className="text-lg text-muted-foreground">
-                  With over 44,000 followers and thousands of likes, we've established ourselves as leaders in the 
-                  digital design space, constantly exploring new design trends and technologies.
-                </p>
-              </div>
+            <TabsContent value="endorsements" className="py-12">
+              <Endorsements />
             </TabsContent>
           </Tabs>
         </div>
