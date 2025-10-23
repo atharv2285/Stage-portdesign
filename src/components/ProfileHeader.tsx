@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import avatarImg from "@/assets/avatar.jpg";
+import heroGraphic from "@/assets/hero-graphic.png";
 
 export const ProfileHeader = () => {
   return (
@@ -7,7 +8,7 @@ export const ProfileHeader = () => {
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row gap-8 items-start">
-            <div className="flex-1">
+          <div className="flex-1">
               <div className="flex items-start gap-6">
                 <img 
                   src={avatarImg} 
@@ -39,6 +40,14 @@ export const ProfileHeader = () => {
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className="hidden lg:block">
+              <img 
+                src={heroGraphic} 
+                alt="Creative design graphic" 
+                className="w-96 h-96 object-contain animate-float"
+              />
             </div>
           </div>
         </div>
