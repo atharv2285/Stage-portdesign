@@ -1,0 +1,116 @@
+Perfect! Since you want the resume section to look like the Behance page you shared, we can make a React component with matching fonts, spacing, and section layout, while keeping it flexible so you can plug in any data. Here’s a more polished version with closer resemblance to Behance’s style:
+
+// ResumePage.js
+import React from "react";
+
+// Sample data from your Behance screenshot
+const resumeData = {
+  name: "Konstantin Aydinov",
+  title: "Graphic Designer",
+  location: "Moscow, Russian Federation",
+  workExperience: [
+    {
+      company: "PromoAge",
+      role: "Graphic Designer",
+      description: "I started with doing technical jobs such as creating web ad banners, a year later I started taking brand identity orders.",
+      duration: "July 2021 - April 2024",
+      location: "Russian Federation",
+      link: "https://promoage.ru/"
+    },
+    {
+      company: "Freelance",
+      role: "Project Coordinator, Graphic Designer",
+      description: "Outside University and PromoAge, I also work as a solo freelancer or with my small group of talented designers. My responsibilities include coordinating the project and negotiating with customers, as well as developing concepts and visuals.",
+      duration: "August 2022 - Present",
+      location: "Russian Federation",
+    },
+    {
+      company: "Channel One Russia",
+      role: "Graphic Designer, Web Designer",
+      duration: "November 2023 - July 2025",
+      location: "Russian Federation",
+      link: "https://www.1tv.ru/"
+    }
+  ],
+  education: [
+    {
+      institution: "HSE Art And Design School",
+      degree: "Bachelor (Diploma with Honors)",
+      duration: "September 2021 - July 2025",
+      location: "Russian Federation",
+      link: "https://design.hse.ru/"
+    }
+  ],
+  languages: ["English (Fluent)", "Russian (Native)", "French (Conversational)"],
+  skills: ["Ableton Live", "Adobe After Effects", "Adobe Illustrator", "Adobe Indesign", "Adobe Photoshop", "Adobe Premiere", "Blender", "Cavalry", "Figma", "Inkscape", "Procreate", "Readymag", "Sketchup"]
+};
+
+const ResumePage = () => {
+  return (
+    <div style={{ fontFamily: "'Inter', sans-serif", maxWidth: "900px", margin: "0 auto", padding: "3rem" }}>
+      {/* Header */}
+      <header style={{ marginBottom: "2.5rem" }}>
+        <h1 style={{ fontSize: "2.5rem", fontWeight: "700" }}>{resumeData.name}</h1>
+        <h2 style={{ fontSize: "1.3rem", fontWeight: "400", color: "#555", marginTop: "0.3rem" }}>{resumeData.title}</h2>
+        <p style={{ fontSize: "0.95rem", color: "#777", marginTop: "0.3rem" }}>{resumeData.location}</p>
+      </header>
+
+      {/* Work Experience */}
+      <section style={{ marginBottom: "2.5rem" }}>
+        <h3 style={{ borderBottom: "2px solid #eee", paddingBottom: "0.5rem", marginBottom: "1.5rem", fontSize: "1.2rem" }}>Work Experience</h3>
+        {resumeData.workExperience.map((work, idx) => (
+          <div key={idx} style={{ marginBottom: "1.8rem" }}>
+            <h4 style={{ fontWeight: "600", fontSize: "1.1rem" }}>
+              {work.link ? <a href={work.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "#000" }}>{work.company}</a> : work.company}
+            </h4>
+            <p style={{ fontWeight: "500", margin: "0.2rem 0", color: "#333" }}>{work.role}</p>
+            {work.description && <p style={{ color: "#555", margin: "0.3rem 0", lineHeight: "1.5" }}>{work.description}</p>}
+            <p style={{ fontSize: "0.9rem", color: "#777" }}>{work.duration} | {work.location}</p>
+          </div>
+        ))}
+      </section>
+
+      {/* Education */}
+      <section style={{ marginBottom: "2.5rem" }}>
+        <h3 style={{ borderBottom: "2px solid #eee", paddingBottom: "0.5rem", marginBottom: "1.5rem", fontSize: "1.2rem" }}>Education</h3>
+        {resumeData.education.map((edu, idx) => (
+          <div key={idx} style={{ marginBottom: "1.5rem" }}>
+            <h4 style={{ fontWeight: "600", fontSize: "1.1rem" }}>
+              {edu.link ? <a href={edu.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "#000" }}>{edu.institution}</a> : edu.institution}
+            </h4>
+            <p style={{ fontWeight: "500", margin: "0.2rem 0" }}>{edu.degree}</p>
+            <p style={{ fontSize: "0.9rem", color: "#777" }}>{edu.duration} | {edu.location}</p>
+          </div>
+        ))}
+      </section>
+
+      {/* Languages */}
+      <section style={{ marginBottom: "2.5rem" }}>
+        <h3 style={{ borderBottom: "2px solid #eee", paddingBottom: "0.5rem", marginBottom: "1rem", fontSize: "1.2rem" }}>Languages</h3>
+        <ul style={{ listStyleType: "circle", paddingLeft: "1.5rem", color: "#555" }}>
+          {resumeData.languages.map((lang, idx) => <li key={idx}>{lang}</li>)}
+        </ul>
+      </section>
+
+      {/* Skills */}
+      <section style={{ marginBottom: "2.5rem" }}>
+        <h3 style={{ borderBottom: "2px solid #eee", paddingBottom: "0.5rem", marginBottom: "1rem", fontSize: "1.2rem" }}>Skills</h3>
+        <p style={{ color: "#555", lineHeight: "1.6" }}>{resumeData.skills.join(", ")}</p>
+      </section>
+    </div>
+  );
+};
+
+export default ResumePage;
+
+Styling Highlights:
+
+Font: 'Inter', sans-serif (matches Behance’s modern clean look)
+
+Section separation: subtle bottom borders
+
+Spacing & line height: like Behance’s readable layout
+
+Link styling: no underline, black text like Behance
+
+Responsive: width capped at 900px, margins auto

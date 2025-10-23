@@ -6,6 +6,7 @@ import { ProjectDialog, ProjectData } from "@/components/ProjectDialog";
 import { WorkExperience } from "@/components/WorkExperience";
 import { SkillTree } from "@/components/SkillTree";
 import { Endorsements } from "@/components/Endorsements";
+import { Resume } from "@/components/Resume";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
@@ -185,6 +186,13 @@ const Index = () => {
                 >
                   Endorsements
                 </TabsTrigger>
+                <TabsTrigger 
+                  value="resume"
+                  className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4"
+                  data-testid="tab-resume"
+                >
+                  Resume
+                </TabsTrigger>
               </TabsList>
               
               <Button variant="ghost" size="sm" className="gap-2">
@@ -218,6 +226,10 @@ const Index = () => {
 
             <TabsContent value="endorsements" className="py-12">
               <Endorsements />
+            </TabsContent>
+
+            <TabsContent value="resume" className="py-12">
+              <Resume />
             </TabsContent>
           </Tabs>
         </div>
