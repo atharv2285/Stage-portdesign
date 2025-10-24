@@ -41,25 +41,21 @@ interface SkillNodeData {
 }
 
 const SkillNode = ({ data, selected }: { data: SkillNodeData; selected: boolean }) => {
-  const completionPercentage = data.completed ? 100 : 0;
-  
   return (
     <div
-      className={`px-5 py-3 rounded-lg border-2 transition-all min-w-[150px] shadow-md ${
+      className={`px-5 py-2.5 rounded-lg border-2 transition-all min-w-[150px] shadow-md ${
         data.completed
           ? "bg-blue-600 border-blue-700 text-white"
-          : "bg-purple-600 border-purple-700 text-white"
+          : "bg-gray-400 border-gray-500 text-gray-700"
       } ${selected ? "ring-4 ring-yellow-400" : ""}`}
     >
       <Handle type="target" position={Position.Top} className="w-2 h-2 opacity-0" />
-      <div className="font-semibold text-sm text-center mb-1.5">{data.label}</div>
-      <div className="w-full h-1.5 bg-white/30 rounded-full overflow-hidden">
-        <div
-          className={`h-full transition-all bg-white`}
-          style={{ width: `${completionPercentage}%` }}
-        />
-      </div>
-      <Handle type="source" position={Position.Bottom} className="w-2 h-2 opacity-0" />
+      <div className="font-semibold text-sm text-center">{data.label}</div>
+      <Handle 
+        type="source" 
+        position={Position.Bottom} 
+        className="w-3 h-3 rounded-full bg-gray-800 border-2 border-gray-900"
+      />
     </div>
   );
 };
@@ -168,8 +164,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "2",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
       {
         id: "e1-3",
@@ -177,8 +173,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "3",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
       {
         id: "e2-4",
@@ -186,8 +182,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "4",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
       {
         id: "e2-5",
@@ -195,8 +191,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "5",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
       {
         id: "e3-6",
@@ -204,8 +200,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "6",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
     ],
   },
@@ -299,8 +295,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "2",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
       {
         id: "e1-3",
@@ -308,8 +304,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "3",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
       {
         id: "e2-4",
@@ -317,8 +313,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "4",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
       {
         id: "e2-5",
@@ -326,8 +322,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "5",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
       {
         id: "e3-6",
@@ -335,8 +331,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "6",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
     ],
   },
@@ -418,8 +414,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "2",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
       {
         id: "e1-3",
@@ -427,8 +423,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "3",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
       {
         id: "e3-4",
@@ -436,8 +432,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "4",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
       {
         id: "e3-5",
@@ -445,8 +441,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "5",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
     ],
   },
@@ -513,8 +509,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "2",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
       {
         id: "e1-3",
@@ -522,8 +518,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "3",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
       {
         id: "e1-4",
@@ -531,8 +527,8 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         target: "4",
         type: "default",
         animated: false,
-        style: { stroke: "#475569", strokeWidth: 3 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+        style: { stroke: "#1f2937", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
       },
     ],
   },
@@ -558,8 +554,8 @@ export const SkillTree = () => {
       ...params,
       type: "default",
       animated: false,
-      style: { stroke: "#475569", strokeWidth: 3 },
-      markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
+      style: { stroke: "#1f2937", strokeWidth: 3 },
+      markerEnd: { type: MarkerType.ArrowClosed, color: "#1f2937" },
     }, eds)),
     [setEdges]
   );
@@ -816,17 +812,17 @@ export const SkillTree = () => {
             onNodeClick={onNodeClick}
             nodeTypes={nodeTypes}
             fitView
-            minZoom={0.8}
-            maxZoom={1.2}
-            zoomOnScroll={false}
+            minZoom={0.5}
+            maxZoom={2}
+            zoomOnScroll={true}
             panOnDrag={true}
-            preventScrolling={true}
+            preventScrolling={false}
             defaultEdgeOptions={{
               type: "default",
               animated: false,
             }}
           >
-            <Controls showZoom={false} showInteractive={false} />
+            <Controls showZoom={true} showInteractive={false} />
             <Background color="#e2e8f0" gap={20} size={1} />
           </ReactFlow>
         </Card>
@@ -949,13 +945,13 @@ export const SkillTree = () => {
       <div className="flex items-center gap-6 mt-4 text-sm text-muted-foreground flex-wrap">
         <div className="flex items-center gap-2">
           <div className="w-5 h-5 rounded border-2 border-blue-700 bg-blue-600 shadow" />
-          <span className="font-medium">Completed</span>
+          <span className="font-medium">Started</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-5 h-5 rounded border-2 border-purple-700 bg-purple-600 shadow" />
-          <span className="font-medium">In Progress</span>
+          <div className="w-5 h-5 rounded border-2 border-gray-500 bg-gray-400 shadow" />
+          <span className="font-medium">Not Started</span>
         </div>
-        <span className="text-xs">💡 Click nodes to view/edit details. Drag between nodes to connect them.</span>
+        <span className="text-xs">💡 Click nodes to view/edit. Drag from bottom hook to connect to other nodes.</span>
       </div>
     </div>
   );
