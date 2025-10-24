@@ -45,23 +45,21 @@ const SkillNode = ({ data, selected }: { data: SkillNodeData; selected: boolean 
   
   return (
     <div
-      className={`px-4 py-2 rounded-lg border-2 transition-all min-w-[140px] ${
+      className={`px-5 py-3 rounded-lg border-2 transition-all min-w-[150px] shadow-md ${
         data.completed
-          ? "bg-blue-500/20 border-blue-500 text-blue-600 dark:text-blue-400"
-          : "bg-purple-500/20 border-purple-500 text-purple-600 dark:text-purple-400"
-      } ${selected ? "ring-2 ring-primary ring-offset-2" : ""}`}
+          ? "bg-blue-600 border-blue-700 text-white"
+          : "bg-purple-600 border-purple-700 text-white"
+      } ${selected ? "ring-4 ring-yellow-400" : ""}`}
     >
-      <Handle type="target" position={Position.Top} className="w-3 h-3" />
-      <div className="font-medium text-sm text-center mb-1">{data.label}</div>
-      <div className="w-full h-1 bg-background/50 rounded-full overflow-hidden">
+      <Handle type="target" position={Position.Top} className="w-2 h-2 opacity-0" />
+      <div className="font-semibold text-sm text-center mb-1.5">{data.label}</div>
+      <div className="w-full h-1.5 bg-white/30 rounded-full overflow-hidden">
         <div
-          className={`h-full transition-all ${
-            data.completed ? "bg-blue-500" : "bg-purple-500"
-          }`}
+          className={`h-full transition-all bg-white`}
           style={{ width: `${completionPercentage}%` }}
         />
       </div>
-      <Handle type="source" position={Position.Bottom} className="w-3 h-3" />
+      <Handle type="source" position={Position.Bottom} className="w-2 h-2 opacity-0" />
     </div>
   );
 };
@@ -168,46 +166,46 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         id: "e1-2",
         source: "1",
         target: "2",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
       {
         id: "e1-3",
         source: "1",
         target: "3",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
       {
         id: "e2-4",
         source: "2",
         target: "4",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
       {
         id: "e2-5",
         source: "2",
         target: "5",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
       {
         id: "e3-6",
         source: "3",
         target: "6",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
     ],
   },
@@ -299,46 +297,46 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         id: "e1-2",
         source: "1",
         target: "2",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
       {
         id: "e1-3",
         source: "1",
         target: "3",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
       {
         id: "e2-4",
         source: "2",
         target: "4",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
       {
         id: "e2-5",
         source: "2",
         target: "5",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
       {
         id: "e3-6",
         source: "3",
         target: "6",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
     ],
   },
@@ -418,37 +416,37 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         id: "e1-2",
         source: "1",
         target: "2",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
       {
         id: "e1-3",
         source: "1",
         target: "3",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
       {
         id: "e3-4",
         source: "3",
         target: "4",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
       {
         id: "e3-5",
         source: "3",
         target: "5",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
     ],
   },
@@ -513,28 +511,28 @@ const defaultCategoryTrees: Record<string, CategoryTree> = {
         id: "e1-2",
         source: "1",
         target: "2",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
       {
         id: "e1-3",
         source: "1",
         target: "3",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
       {
         id: "e1-4",
         source: "1",
         target: "4",
-        type: "smoothstep",
+        type: "default",
         animated: false,
-        style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+        style: { stroke: "#475569", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
       },
     ],
   },
@@ -558,10 +556,10 @@ export const SkillTree = () => {
   const onConnect = useCallback(
     (params: Connection) => setEdges((eds) => addEdge({
       ...params,
-      type: "smoothstep",
+      type: "default",
       animated: false,
-      style: { stroke: "hsl(var(--border))", strokeWidth: 2 },
-      markerEnd: { type: MarkerType.ArrowClosed, color: "hsl(var(--border))" },
+      style: { stroke: "#475569", strokeWidth: 3 },
+      markerEnd: { type: MarkerType.ArrowClosed, color: "#475569" },
     }, eds)),
     [setEdges]
   );
@@ -761,37 +759,8 @@ export const SkillTree = () => {
         })}
       </div>
 
-      <div className="flex gap-2 mb-4">
-        <Dialog open={isAddNodeOpen} onOpenChange={setIsAddNodeOpen}>
-          <DialogTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-2">
-              <Plus className="w-4 h-4" />
-              Add Skill Node
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Skill</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div>
-                <Label htmlFor="node-label">Skill Name</Label>
-                <Input
-                  id="node-label"
-                  placeholder="e.g., Docker, GraphQL, Flutter"
-                  value={newNodeLabel}
-                  onChange={(e) => setNewNodeLabel(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleAddNode()}
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button onClick={handleAddNode}>Add Skill</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-
-        {currentTree.isCustom && (
+      {currentTree.isCustom && (
+        <div className="flex gap-2 mb-4">
           <Button
             variant="outline"
             size="sm"
@@ -801,11 +770,43 @@ export const SkillTree = () => {
             <Trash2 className="w-4 h-4" />
             Delete This Tree
           </Button>
-        )}
-      </div>
+        </div>
+      )}
 
       <div className="relative">
-        <Card className="p-0 overflow-hidden" style={{ height: "600px" }}>
+        <Card className="p-0 overflow-hidden bg-slate-50" style={{ height: "600px" }}>
+          <Dialog open={isAddNodeOpen} onOpenChange={setIsAddNodeOpen}>
+            <DialogTrigger asChild>
+              <Button 
+                className="absolute top-4 left-4 z-10 gap-2 shadow-lg bg-white hover:bg-gray-100 text-gray-900 border-2"
+                size="sm"
+              >
+                <Plus className="w-4 h-4" />
+                Add Node
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Add New Skill</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 py-4">
+                <div>
+                  <Label htmlFor="node-label">Skill Name</Label>
+                  <Input
+                    id="node-label"
+                    placeholder="e.g., Docker, GraphQL, Flutter"
+                    value={newNodeLabel}
+                    onChange={(e) => setNewNodeLabel(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleAddNode()}
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button onClick={handleAddNode}>Add Skill</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+          
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -815,15 +816,18 @@ export const SkillTree = () => {
             onNodeClick={onNodeClick}
             nodeTypes={nodeTypes}
             fitView
-            minZoom={0.5}
-            maxZoom={1.5}
+            minZoom={0.8}
+            maxZoom={1.2}
+            zoomOnScroll={false}
+            panOnDrag={true}
+            preventScrolling={true}
             defaultEdgeOptions={{
-              type: "smoothstep",
+              type: "default",
               animated: false,
             }}
           >
-            <Controls />
-            <Background variant={BackgroundVariant.Dots} gap={16} size={1} />
+            <Controls showZoom={false} showInteractive={false} />
+            <Background color="#e2e8f0" gap={20} size={1} />
           </ReactFlow>
         </Card>
 
@@ -944,14 +948,14 @@ export const SkillTree = () => {
 
       <div className="flex items-center gap-6 mt-4 text-sm text-muted-foreground flex-wrap">
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded border-2 border-blue-500 bg-blue-500/20" />
-          <span>Completed</span>
+          <div className="w-5 h-5 rounded border-2 border-blue-700 bg-blue-600 shadow" />
+          <span className="font-medium">Completed</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded border-2 border-purple-500 bg-purple-500/20" />
-          <span>In Progress</span>
+          <div className="w-5 h-5 rounded border-2 border-purple-700 bg-purple-600 shadow" />
+          <span className="font-medium">In Progress</span>
         </div>
-        <span className="text-xs">💡 Tip: Drag nodes to rearrange. Click nodes to view details. Connect nodes by dragging from edge to edge.</span>
+        <span className="text-xs">💡 Click nodes to view/edit details. Drag between nodes to connect them.</span>
       </div>
     </div>
   );
