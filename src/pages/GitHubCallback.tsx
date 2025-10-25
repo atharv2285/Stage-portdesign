@@ -27,28 +27,39 @@ export const GitHubCallback = () => {
         }
 
         setMessage('Exchanging authorization code...');
-        await githubAuthService.exchangeCode(code);
+        const token = await githubAuthService.exchangeCode(code);
+        console.log('Token received and stored:', token ? 'SUCCESS' : 'FAILED');
 
         setMessage('Fetching your profile...');
         const user = await getAuthenticatedUser();
-        githubAuthService.setUserInfo({
+        console.log('User fetched:', user.login);
+        
+        const userInfo = {
           login: user.login,
           name: user.name,
           avatar_url: user.avatar_url,
           html_url: user.html_url
-        });
+        };
+        githubAuthService.setUserInfo(userInfo);
+        console.log('User info stored in localStorage');
 
         setStatus('success');
-        setMessage('Successfully connected to GitHub! Closing tab...');
+        setMessage(`Successfully connected as @${user.login}! Closing tab...`);
 
         // Notify the parent window if opened via window.open
         if (window.opener && !window.opener.closed) {
-          window.opener.postMessage({ type: 'GITHUB_AUTH_SUCCESS' }, '*');
+          console.log('Sending message to parent window');
+          window.opener.postMessage({ 
+            type: 'GITHUB_AUTH_SUCCESS',
+            user: userInfo
+          }, '*');
+        } else {
+          console.log('No parent window found - user should refresh manually');
         }
 
         setTimeout(() => {
           window.close();
-        }, 1500);
+        }, 2000);
       } catch (error: any) {
         console.error('GitHub OAuth error:', error);
         setStatus('error');

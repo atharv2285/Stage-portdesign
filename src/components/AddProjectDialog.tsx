@@ -77,13 +77,16 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
     
     // Listen for GitHub auth success from OAuth popup
     const handleMessage = async (event: MessageEvent) => {
+      console.log('Received message:', event.data);
       if (event.data.type === 'GITHUB_AUTH_SUCCESS') {
+        console.log('GitHub auth success message received!');
         // Force refresh the auth state
         setIsGitHubConnected(false);
         setGithubUser(null);
         setTimeout(async () => {
+          console.log('Rechecking GitHub auth...');
           await checkGitHubAuth();
-          toast.success('GitHub connected successfully!');
+          toast.success(`GitHub connected as @${event.data.user?.login || 'user'}!`);
         }, 500);
       }
     };
