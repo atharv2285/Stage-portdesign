@@ -214,6 +214,156 @@ app.get('/api/github/repos/:owner/:repo', async (req, res) => {
   }
 });
 
+// LeetCode API endpoint (no authentication required)
+app.get('/api/leetcode/user/:username', async (req, res) => {
+  try {
+    const { username } = req.params;
+    
+    const query = `
+      query getUserProfile($username: String!) {
+        matchedUser(username: $username) {
+          username
+          profile {
+            ranking
+            reputation
+          }
+          submitStatsGlobal {
+            acSubmissionNum {
+              difficulty
+              count
+            }
+          }
+          contributions {
+            points
+          }
+        }
+      }
+    `;
+
+    const response = await fetch('https://leetcode.com/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+        variables: { username },
+      }),
+    });
+
+    if (!response.ok) {
+      return res.status(500).json({ error: 'Failed to fetch LeetCode data' });
+    }
+
+    const data = await response.json();
+    
+    if (!data.data?.matchedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(data.data.matchedUser);
+  } catch (error: any) {
+    console.error('LeetCode API error:', error);
+    res.status(500).json({ error: error.message || 'Failed to fetch LeetCode stats' });
+  }
+});
+
+// YouTube API endpoint (requires YOUTUBE_API_KEY)
+app.get('/api/youtube/channel/:channelId', async (req, res) => {
+  try {
+    const { channelId } = req.params;
+    const apiKey = process.env.YOUTUBE_API_KEY;
+
+    if (!apiKey) {
+      return res.status(400).json({ error: 'YouTube API key not configured' });
+    }
+
+    const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelId}&key=${apiKey}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      return res.status(500).json({ error: 'Failed to fetch YouTube data' });
+    }
+
+    const data = await response.json();
+
+    if (!data.items || data.items.length === 0) {
+      return res.status(404).json({ error: 'Channel not found' });
+    }
+
+    res.json(data.items[0]);
+  } catch (error: any) {
+    console.error('YouTube API error:', error);
+    res.status(500).json({ error: error.message || 'Failed to fetch YouTube stats' });
+  }
+});
+
+// YouTube search endpoint (to find channel by name)
+app.get('/api/youtube/search', async (req, res) => {
+  try {
+    const { query } = req.query;
+    const apiKey = process.env.YOUTUBE_API_KEY;
+
+    if (!apiKey) {
+      return res.status(400).json({ error: 'YouTube API key not configured' });
+    }
+
+    if (!query) {
+      return res.status(400).json({ error: 'Search query is required' });
+    }
+
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${encodeURIComponent(query as string)}&key=${apiKey}&maxResults=5`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      return res.status(500).json({ error: 'Failed to search YouTube channels' });
+    }
+
+    const data = await response.json();
+    res.json(data.items || []);
+  } catch (error: any) {
+    console.error('YouTube search error:', error);
+    res.status(500).json({ error: error.message || 'Failed to search channels' });
+  }
+});
+
+// LinkedIn API endpoint (requires RAPIDAPI_KEY)
+app.post('/api/linkedin/profile', async (req, res) => {
+  try {
+    const { profileUrl } = req.body;
+    const rapidApiKey = process.env.RAPIDAPI_KEY;
+
+    if (!rapidApiKey) {
+      return res.status(400).json({ error: 'RapidAPI key not configured' });
+    }
+
+    if (!profileUrl) {
+      return res.status(400).json({ error: 'Profile URL is required' });
+    }
+
+    const response = await fetch(
+      `https://fresh-linkedin-profile-data.p.rapidapi.com/get-profile-data-by-url?url=${encodeURIComponent(profileUrl)}`,
+      {
+        method: 'GET',
+        headers: {
+          'x-rapidapi-key': rapidApiKey,
+          'x-rapidapi-host': 'fresh-linkedin-profile-data.p.rapidapi.com',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      return res.status(500).json({ error: 'Failed to fetch LinkedIn data' });
+    }
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error: any) {
+    console.error('LinkedIn API error:', error);
+    res.status(500).json({ error: error.message || 'Failed to fetch LinkedIn profile' });
+  }
+});
+
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Backend server is running' });
 });
