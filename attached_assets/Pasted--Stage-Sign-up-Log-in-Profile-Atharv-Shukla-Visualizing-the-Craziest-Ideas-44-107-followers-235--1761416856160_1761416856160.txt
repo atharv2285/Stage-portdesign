@@ -1,0 +1,156 @@
+
+Stage
+Sign up
+Log in
+Profile
+Atharv Shukla
+👽 Visualizing the Craziest Ideas
+
+44,107
+followers
+235
+following
+62,699
+likes
+Message
+Follow
+Creative design graphic
+Hover to know me!
+
+👋
+About Me
+Hi! I'm Atharv. I love building AI-powered apps, tinkering with drones, and turning wild ideas into real projects. When I'm not coding, you'll find me exploring startups or reading about tech trends.
+
+AI Enthusiast
+Drone Builder
+Innovator
+Projects
+Work Experience
+Skill Trees
+Competitions
+Endorsements
+Resume
+Linked Profiles
+Chat
+Chat
+Fragmented communication → Unified messaging platform
+
+React Native
+Firebase
+WebSocket
++1
+Shop
+Shop
+Poor UX checkout → Streamlined shopping experience
+
+Next.js
+Stripe
+PostgreSQL
++1
+AI OS
+AI OS
+Complex AI tools → Intuitive AI workspace
+
+React
+Python
+TensorFlow
++2
+Widget Dashboard
+Widget Dashboard
+Static widgets → Dynamic customizable home screen
+
+Swift
+SwiftUI
+WidgetKit
++1
+Music Player
+Music Player
+Cluttered interface → Clean audio experience
+
+Vue.js
+Node.js
+MongoDB
++1
+Fitness Tracker
+Fitness Tracker
+Generic tracking → Personalized health insights
+
+React
+GraphQL
+PostgreSQL
++1
+NEWCHECK
+NEWCHECK
+NEWCHECK - TypeScript
+
+TypeScript
+CSS
+JavaScript
+Add Project
+Add New Project
+Import projects from GitHub or upload project files (PDF, PPT, DOC) to showcase your work.
+
+Import from GitHub
+Upload Files
+No file chosen
+Drag & drop files here, or click to select
+
+Supports: PDF, PPT, PPTX, DOC, DOCX, Images
+
+Project Details
+Title *
+NEWCHECK
+Category *
+TypeScript
+Tagline
+NEWCHECK - TypeScript
+Tech Stack
+Add technology
+
+TypeScript
+CSS
+JavaScript
+Description / README
+# Conquest demo day web page
+
+*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/atharv2285s-projects/v0-conquest-demo-day-web-page)
+[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/iqCEuu1E9mG)
+
+## Overview
+
+This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
+Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+
+## Deployment
+
+Your project is live at:
+
+**[https://vercel.com/atharv2285s-projects/v0-conquest-demo-day-web-page](https://vercel.com/atharv2285s-projects/v0-conquest-demo-day-web-page)**
+
+## Build your app
+
+Continue building your app on:
+
+**[https://v0.dev/chat/projects/iqCEuu1E9mG](https://v0.dev/chat/projects/iqCEuu1E9mG)**
+
+## How It Works
+
+1. Create and modify your project using [v0.dev](https://v0.dev)
+2. Deploy your chats from the v0 interface
+3. Changes are automatically pushed to this repository
+4. Vercel deploys the latest version from this repository
+
+Outcome / Results
+0 stars, 0 forks. Last updated August 2025.
+Completion Date
+August 2025
+Demo URL
+https://v0-conquest-demo-day-web-page.vercel.app
+Cover Image
+Cover
+Upload Custom Cover
+Cancel
+Save Project
+Close
