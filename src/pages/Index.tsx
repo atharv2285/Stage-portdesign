@@ -150,6 +150,7 @@ const Index = () => {
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('projects');
   
   const { projects: userProjects, addProject, getNextId } = useProjectStorage();
   
@@ -185,7 +186,7 @@ const Index = () => {
       
       <div className="border-b border-border">
         <div className="container mx-auto px-6">
-          <Tabs defaultValue="projects" className="w-full">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="flex items-center justify-between">
               <TabsList className="bg-transparent border-none h-auto p-0">
                 <TabsTrigger 
@@ -285,7 +286,7 @@ const Index = () => {
             </TabsContent>
 
             <TabsContent value="profiles" className="py-12">
-              <ExternalProfiles />
+              <ExternalProfiles key={activeTab === 'profiles' ? 'refresh' : 'inactive'} />
             </TabsContent>
           </Tabs>
         </div>

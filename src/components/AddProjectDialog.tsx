@@ -20,7 +20,7 @@ import {
   LogOut
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { getAuthenticatedUserRepos, getRepoDetails, RepoDetails } from '@/services/githubService';
+import { getAuthenticatedUserRepos, getRepoDetails, RepoDetails, getAuthenticatedUser } from '@/services/githubService';
 import { handleFileUpload, FileUploadResult } from '@/services/fileService';
 import { ProjectData } from '@/components/ProjectDialog';
 import { githubAuthService } from '@/services/githubAuthService';
@@ -49,8 +49,26 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
       const connected = githubAuthService.isAuthenticated();
       setIsGitHubConnected(connected);
       if (connected) {
-        const user = await githubAuthService.getUserInfo();
-        setGithubUser(user);
+        try {
+          // First try to get from localStorage cache
+          let user = await githubAuthService.getUserInfo();
+          
+          // If not in cache, fetch from GitHub API
+          if (!user) {
+            const githubUser = await getAuthenticatedUser();
+            user = {
+              login: githubUser.login,
+              name: githubUser.name,
+              avatar_url: githubUser.avatar_url,
+              html_url: githubUser.html_url
+            };
+            githubAuthService.setUserInfo(user);
+          }
+          
+          setGithubUser(user);
+        } catch (error) {
+          console.error('Failed to fetch GitHub user:', error);
+        }
       }
     };
     if (open) {
@@ -58,9 +76,9 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
     }
     
     // Listen for GitHub auth success from OAuth popup
-    const handleMessage = (event: MessageEvent) => {
+    const handleMessage = async (event: MessageEvent) => {
       if (event.data.type === 'GITHUB_AUTH_SUCCESS') {
-        checkGitHubAuth();
+        await checkGitHubAuth();
         toast.success('GitHub connected successfully!');
       }
     };
