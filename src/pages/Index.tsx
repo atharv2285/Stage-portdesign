@@ -12,7 +12,7 @@ import { Competitions } from "@/components/Competitions";
 import { ExternalProfiles } from "@/components/ExternalProfiles";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useProjectStorage } from "@/hooks/useProjectStorage";
 
 import portfolio1 from "@/assets/portfolio-1.jpg";
@@ -244,9 +244,6 @@ const Index = () => {
                 >
                   <Plus className="w-4 h-4" />
                   Add Project
-                </Button>
-                <Button variant="ghost" size="sm" className="gap-2">
-                  Featured Shots <ChevronDown className="w-4 h-4" />
                 </Button>
               </div>
             </div>
