@@ -6,6 +6,17 @@ The portfolio serves as a comprehensive digital resume and project showcase, all
 
 ## Recent Changes (October 25, 2025)
 
+### Investments Section Added
+- New "Investments" tab added between Competitions and Endorsements
+- Zerodha Kite Connect integration for portfolio tracking (holdings, positions, P&L)
+- Live market indices display (NIFTY 50, SENSEX, NIFTY BANK)
+- Beautiful portfolio summary cards with total value, P&L, and holdings count
+- Demo data shown until user connects their Zerodha account
+- Fun, clean design with color-coded gains/losses
+- Real-time market data support
+
+### Recent Changes (October 25, 2025)
+
 ### GitHub Integration Enhancement
 - Created Express.js backend server (port 5001) to handle GitHub API calls securely
 - Implemented proper token retrieval using Replit's GitHub connector
@@ -88,6 +99,17 @@ Preferred communication style: Simple, everyday language.
 - Managed OAuth service for GitHub authentication
 - Accessed via `REPLIT_CONNECTORS_HOSTNAME` environment variable
 - Handles token refresh and credential management
+
+**Zerodha Kite Connect API**
+- Free Personal API for portfolio tracking (no market data)
+- Endpoints: `/api/zerodha/holdings`, `/api/zerodha/positions`
+- Requires ZERODHA_API_KEY and user access token
+- Used for displaying real investment portfolio data
+
+**Market Data API**
+- `/api/market/indices` endpoint for NSE/BSE indices
+- Currently using demo data (can be replaced with real API)
+- Updates every 30 seconds in the frontend
 
 ### File Processing Libraries
 
