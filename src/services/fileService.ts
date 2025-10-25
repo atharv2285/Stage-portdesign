@@ -57,20 +57,30 @@ async function fileToBase64(file: File): Promise<string> {
 
 async function extractPdfFirstPage(file: File): Promise<string> {
   try {
+    console.log('Extracting PDF first page for:', file.name);
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
     
-    if (pdf.numPages === 0) return '';
+    console.log('PDF loaded, pages:', pdf.numPages);
+    if (pdf.numPages === 0) {
+      console.warn('PDF has 0 pages');
+      return '';
+    }
     
     const page = await pdf.getPage(1);
-    const viewport = page.getViewport({ scale: 1.5 });
+    const viewport = page.getViewport({ scale: 2.0 }); // Increased scale for better quality
     
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    if (!context) return '';
+    if (!context) {
+      console.error('Could not get canvas context');
+      return '';
+    }
     
     canvas.width = viewport.width;
     canvas.height = viewport.height;
+    
+    console.log('Rendering PDF page, size:', canvas.width, 'x', canvas.height);
     
     const renderContext = {
       canvasContext: context,
@@ -80,23 +90,12 @@ async function extractPdfFirstPage(file: File): Promise<string> {
     
     await page.render(renderContext as any).promise;
     
-    return canvas.toDataURL('image/png');
+    const dataUrl = canvas.toDataURL('image/png');
+    console.log('PDF first page extracted successfully, data URL length:', dataUrl.length);
+    return dataUrl;
   } catch (error) {
     console.error('Error extracting PDF first page:', error);
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return '';
-    
-    canvas.width = 800;
-    canvas.height = 600;
-    ctx.fillStyle = '#f3f4f6';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#6b7280';
-    ctx.font = '24px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('PDF Preview Unavailable', canvas.width / 2, canvas.height / 2);
-    
-    return canvas.toDataURL('image/png');
+    return generateErrorPlaceholder('PDF Preview Unavailable', '#ef4444');
   }
 }
 
@@ -131,6 +130,18 @@ async function extractDocText(file: File): Promise<string> {
 }
 
 async function generatePptPlaceholder(fileName: string): Promise<string> {
+  console.log('Generating PowerPoint preview for:', fileName);
+  // Note: Extracting actual PPT slides requires complex rendering
+  // This creates a professional placeholder until proper extraction is implemented
+  return generateErrorPlaceholder(`PowerPoint: ${fileName}`, '#4f46e5');
+}
+
+async function generateDocPlaceholder(fileName: string): Promise<string> {
+  console.log('Generating Document preview for:', fileName);
+  return generateErrorPlaceholder(`Document: ${fileName}`, '#2563eb');
+}
+
+function generateErrorPlaceholder(text: string, color: string): string {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   if (!ctx) return '';
@@ -140,58 +151,34 @@ async function generatePptPlaceholder(fileName: string): Promise<string> {
   
   // Gradient background
   const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  gradient.addColorStop(0, '#4f46e5');
-  gradient.addColorStop(1, '#7c3aed');
+  gradient.addColorStop(0, color);
+  gradient.addColorStop(1, adjustColor(color, -20));
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   
-  // File icon
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-  ctx.fillRect(300, 200, 200, 200);
+  // Icon placeholder
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+  ctx.fillRect(250, 150, 300, 300);
   
   // Text
   ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 32px sans-serif';
+  ctx.font = 'bold 28px sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('PowerPoint', canvas.width / 2, canvas.height / 2 - 40);
+  ctx.fillText(text, canvas.width / 2, canvas.height / 2);
   
-  ctx.font = '18px sans-serif';
-  const displayName = fileName.length > 30 ? fileName.substring(0, 27) + '...' : fileName;
-  ctx.fillText(displayName, canvas.width / 2, canvas.height / 2 + 20);
+  ctx.font = '16px sans-serif';
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+  ctx.fillText('Preview will appear here', canvas.width / 2, canvas.height / 2 + 40);
   
   return canvas.toDataURL('image/png');
 }
 
-async function generateDocPlaceholder(fileName: string): Promise<string> {
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return '';
-  
-  canvas.width = 800;
-  canvas.height = 600;
-  
-  // Gradient background
-  const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  gradient.addColorStop(0, '#2563eb');
-  gradient.addColorStop(1, '#1d4ed8');
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-  // File icon
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-  ctx.fillRect(300, 200, 200, 200);
-  
-  // Text
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 32px sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('Document', canvas.width / 2, canvas.height / 2 - 40);
-  
-  ctx.font = '18px sans-serif';
-  const displayName = fileName.length > 30 ? fileName.substring(0, 27) + '...' : fileName;
-  ctx.fillText(displayName, canvas.width / 2, canvas.height / 2 + 20);
-  
-  return canvas.toDataURL('image/png');
+function adjustColor(color: string, amount: number): string {
+  const num = parseInt(color.replace('#', ''), 16);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amount));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + amount));
+  const b = Math.max(0, Math.min(255, (num & 0x0000FF) + amount));
+  return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
 }
 
 export function dataURItoBlob(dataURI: string): Blob {
