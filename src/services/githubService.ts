@@ -1,3 +1,15 @@
+export interface GitHubUser {
+  login: string;
+  name: string;
+  avatar_url: string;
+  html_url: string;
+  bio: string | null;
+  public_repos: number;
+  followers: number;
+  following: number;
+  created_at: string;
+  updated_at: string;
+}
 
 export interface GitHubRepo {
   name: string;
@@ -46,4 +58,16 @@ export async function getRepoDetails(owner: string, repo: string): Promise<RepoD
   
   const data = await response.json();
   return data as RepoDetails;
+}
+
+export async function getAuthenticatedUser(): Promise<GitHubUser> {
+  const response = await fetch('/api/github/user');
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ error: 'Failed to fetch user profile' }));
+    throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+  }
+  
+  const data = await response.json();
+  return data as GitHubUser;
 }

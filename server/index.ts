@@ -82,6 +82,20 @@ app.get('/api/github/repos', async (req, res) => {
   }
 });
 
+app.get('/api/github/user', async (req, res) => {
+  try {
+    const octokit = await getUncachableGitHubClient();
+    const { data: user } = await octokit.users.getAuthenticated();
+    res.json(user);
+  } catch (error: any) {
+    console.error('Failed to fetch user:', error);
+    res.status(500).json({ 
+      error: error.message || 'Failed to fetch user profile',
+      details: error.toString()
+    });
+  }
+});
+
 app.get('/api/github/repos/:owner/:repo', async (req, res) => {
   try {
     const { owner, repo } = req.params;
