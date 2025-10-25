@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, TrendingUp, Award, Star, Code, Users, Activity } from "lucide-react";
+import { ExternalLink, TrendingUp, Award, Star, Code, Users, Activity, Github } from "lucide-react";
 import { SiGithub, SiLinkedin, SiLeetcode, SiDribbble, SiKaggle, SiYoutube } from "react-icons/si";
+import { githubAuthService } from "@/services/githubAuthService";
+import { getAuthenticatedUser } from "@/services/githubService";
+import { toast } from "sonner";
 
 interface PlatformProfile {
   id: string;
@@ -153,15 +156,59 @@ type SortOption = "engagement" | "activity" | "name";
 
 export const ExternalProfiles = () => {
   const [sortBy, setSortBy] = useState<SortOption>("engagement");
+  const [githubProfile, setGithubProfile] = useState<PlatformProfile | null>(null);
+  const [isGitHubConnected, setIsGitHubConnected] = useState(false);
+  const [isLoadingGitHub, setIsLoadingGitHub] = useState(false);
 
-  const sortedProfiles = [...profiles].sort((a, b) => {
+  useEffect(() => {
+    const checkGitHubConnection = async () => {
+      const connected = githubAuthService.isAuthenticated();
+      setIsGitHubConnected(connected);
+      
+      if (connected) {
+        setIsLoadingGitHub(true);
+        try {
+          const user = await getAuthenticatedUser();
+          const githubData: PlatformProfile = {
+            id: "github",
+            platform: "GitHub",
+            username: user.login,
+            profileUrl: user.html_url,
+            color: "#181717",
+            icon: SiGithub,
+            stats: [
+              { label: "Repositories", value: user.public_repos, icon: Code },
+              { label: "Followers", value: user.followers, icon: Users },
+              { label: "Following", value: user.following, icon: Activity }
+            ],
+            recentActivity: "Connected via OAuth",
+            badge: "Connected Account",
+            engagementScore: 100
+          };
+          setGithubProfile(githubData);
+        } catch (error) {
+          console.error('Failed to fetch GitHub profile:', error);
+        } finally {
+          setIsLoadingGitHub(false);
+        }
+      }
+    };
+
+    checkGitHubConnection();
+  }, []);
+
+  const allProfiles = githubProfile 
+    ? [githubProfile, ...profiles.filter(p => p.id !== 'github')]
+    : profiles;
+
+  const sortedProfiles = [...allProfiles].sort((a, b) => {
     if (sortBy === "engagement") return b.engagementScore - a.engagementScore;
     if (sortBy === "name") return a.platform.localeCompare(b.platform);
     return 0;
   });
 
   const averageEngagement = Math.round(
-    profiles.reduce((sum, p) => sum + p.engagementScore, 0) / profiles.length
+    allProfiles.reduce((sum, p) => sum + p.engagementScore, 0) / allProfiles.length
   );
 
   return (
@@ -185,7 +232,7 @@ export const ExternalProfiles = () => {
               <Award className="w-5 h-5 text-yellow-500" />
               <div>
                 <p className="text-sm text-muted-foreground">Platforms Connected</p>
-                <p className="text-2xl font-bold">{profiles.length}</p>
+                <p className="text-2xl font-bold">{allProfiles.length}</p>
               </div>
             </div>
           </div>
