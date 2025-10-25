@@ -6,6 +6,25 @@ The portfolio serves as a comprehensive digital resume and project showcase, all
 
 ## Recent Changes (October 25, 2025)
 
+### Achievement Badges Feature
+- Added colorful achievement badges to profile header
+- Positioned below profile stats, utilizing white space effectively
+- Full CRUD functionality (add, edit, delete badges)
+- 10 vibrant color options (Blue, Purple, Pink, Green, Orange, Red, Teal, Indigo, Yellow, Emerald)
+- Hover effects showing edit/delete buttons
+- localStorage persistence
+- Preview feature in badge editor dialog
+- Perfect for showcasing certifications, achievements, rankings (e.g., "CFA Level 1", "Top 1% Coder", "AWS Certified")
+
+### Resume Editor Feature
+- Added complete resume editing functionality
+- Tabbed editor with sections: Personal Info, Work Experience, Education, Languages, Skills, Custom Sections
+- Full CRUD operations for all resume sections
+- Support for custom sections (Certifications, Awards, Publications, etc.)
+- localStorage persistence for all resume data
+- Edit button in Resume tab for quick access
+- Professional formatting maintained in preview
+
 ### Work Experience Enhancement
 - Added full CRUD (Create, Read, Update, Delete) functionality for work experiences
 - Integrated Brandfetch Logo API (free tier: 500K-1M requests/month) for company search
