@@ -45,7 +45,7 @@ export const ProfileHeader = () => {
               </div>
 
               {/* Achievement Badges - utilizing the white space below buttons */}
-              <div className="mt-8">
+              <div className="mt-12">
                 <AchievementBadges />
               </div>
             </div>
