@@ -37,18 +37,16 @@ export const ProfileHeader = () => {
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 mb-4">
                     <Button variant="portfolio" size="lg">Message</Button>
                     <Button variant="outline" size="lg">Follow</Button>
                   </div>
+
+                  {/* Achievement Badges - below buttons */}
+                  <AchievementBadges />
                 </div>
               </div>
 
-            </div>
-
-            {/* Achievement Badges - left of graphic card */}
-            <div className="hidden lg:flex lg:items-center lg:justify-center lg:flex-1">
-              <AchievementBadges />
             </div>
 
             <div className="hidden lg:block perspective-1000">
@@ -80,11 +78,6 @@ export const ProfileHeader = () => {
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Achievement Badges - mobile view */}
-          <div className="lg:hidden mt-8 flex justify-center">
-            <AchievementBadges />
           </div>
         </div>
       </div>

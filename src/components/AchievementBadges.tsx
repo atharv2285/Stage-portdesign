@@ -103,7 +103,7 @@ export const AchievementBadges = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center gap-3 flex-wrap">
+      <div className="flex items-center gap-3 flex-wrap">
         {badges.map((badge) => (
           <div key={badge.id} className="group relative">
             <Badge
