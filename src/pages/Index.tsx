@@ -235,18 +235,6 @@ const Index = () => {
                   Linked Profiles
                 </TabsTrigger>
               </TabsList>
-              
-              <div className="flex gap-2">
-                <Button 
-                  variant="default" 
-                  size="sm" 
-                  className="gap-2"
-                  onClick={() => setAddDialogOpen(true)}
-                >
-                  <Plus className="w-4 h-4" />
-                  Add Project
-                </Button>
-              </div>
             </div>
 
             <TabsContent value="projects" className="py-12">
@@ -262,6 +250,18 @@ const Index = () => {
                     onClick={() => handleProjectClick(item)}
                   />
                 ))}
+              </div>
+              
+              <div className="mt-8 flex justify-center">
+                <Button 
+                  variant="default" 
+                  size="lg" 
+                  className="gap-2"
+                  onClick={() => setAddDialogOpen(true)}
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Project
+                </Button>
               </div>
             </TabsContent>
 
