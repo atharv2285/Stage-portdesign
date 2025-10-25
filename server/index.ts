@@ -364,6 +364,51 @@ app.post('/api/linkedin/profile', async (req, res) => {
   }
 });
 
+// Codeforces API endpoint (no authentication required)
+app.get('/api/codeforces/user/:handle', async (req, res) => {
+  try {
+    const { handle } = req.params;
+    
+    // Get user info
+    const infoResponse = await fetch(
+      `https://codeforces.com/api/user.info?handles=${handle}`
+    );
+
+    if (!infoResponse.ok) {
+      return res.status(500).json({ error: 'Failed to fetch Codeforces data' });
+    }
+
+    const infoData = await infoResponse.json();
+
+    if (infoData.status !== 'OK') {
+      return res.status(404).json({ error: infoData.comment || 'User not found' });
+    }
+
+    const user = infoData.result[0];
+
+    // Get rating history
+    const ratingResponse = await fetch(
+      `https://codeforces.com/api/user.rating?handle=${handle}`
+    );
+
+    let totalContests = 0;
+    if (ratingResponse.ok) {
+      const ratingData = await ratingResponse.json();
+      if (ratingData.status === 'OK') {
+        totalContests = ratingData.result.length;
+      }
+    }
+
+    res.json({
+      ...user,
+      totalContests,
+    });
+  } catch (error: any) {
+    console.error('Codeforces API error:', error);
+    res.status(500).json({ error: error.message || 'Failed to fetch Codeforces stats' });
+  }
+});
+
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Backend server is running' });
 });

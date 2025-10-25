@@ -38,6 +38,14 @@ export const ConnectPlatformDialog = ({
           response = await fetch(`http://localhost:5001/api/leetcode/user/${username}`);
           break;
           
+        case "codeforces":
+          if (!username.trim()) {
+            toast.error("Please enter your Codeforces handle");
+            return;
+          }
+          response = await fetch(`http://localhost:5001/api/codeforces/user/${username}`);
+          break;
+          
         case "youtube":
           if (!channelId.trim()) {
             toast.error("Please enter your YouTube channel ID");
@@ -93,6 +101,7 @@ export const ConnectPlatformDialog = ({
           </DialogTitle>
           <DialogDescription>
             {platform === "leetcode" && "Enter your LeetCode username to import your coding stats"}
+            {platform === "codeforces" && "Enter your Codeforces handle to import your competitive programming stats"}
             {platform === "youtube" && "Enter your YouTube channel ID to display your content stats"}
             {platform === "linkedin" && "Enter your LinkedIn profile URL to import your professional data"}
           </DialogDescription>
@@ -111,6 +120,22 @@ export const ConnectPlatformDialog = ({
               />
               <p className="text-xs text-muted-foreground mt-1">
                 Find your username in your LeetCode profile URL
+              </p>
+            </div>
+          )}
+
+          {platform === "codeforces" && (
+            <div>
+              <Label htmlFor="username">Codeforces Handle</Label>
+              <Input
+                id="username"
+                placeholder="e.g., tourist"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && !isLoading && handleConnect()}
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Your Codeforces username/handle
               </p>
             </div>
           )}

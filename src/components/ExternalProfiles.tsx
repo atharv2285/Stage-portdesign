@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, TrendingUp, Award, Star, Code, Users, Activity, Link as LinkIcon, Plus } from "lucide-react";
-import { SiGithub, SiLinkedin, SiLeetcode, SiDribbble, SiKaggle, SiYoutube } from "react-icons/si";
+import { ExternalLink, TrendingUp, Award, Star, Code, Users, Activity, Link as LinkIcon, Plus, Zap } from "lucide-react";
+import { SiGithub, SiLinkedin, SiLeetcode, SiDribbble, SiKaggle, SiYoutube, SiCodeforces } from "react-icons/si";
 import { githubAuthService } from "@/services/githubAuthService";
 import { getAuthenticatedUser } from "@/services/githubService";
 import { ConnectPlatformDialog } from "./ConnectPlatformDialog";
@@ -62,12 +62,12 @@ export const ExternalProfiles = () => {
       connected: false,
     },
     {
-      id: "linkedin",
-      platform: "LinkedIn",
+      id: "codeforces",
+      platform: "Codeforces",
       username: "Connect Account",
       profileUrl: "#",
-      color: "#0A66C2",
-      icon: SiLinkedin,
+      color: "#1F8ACB",
+      icon: SiCodeforces,
       stats: [],
       badge: "Not Connected",
       engagementScore: 0,
@@ -80,6 +80,18 @@ export const ExternalProfiles = () => {
       profileUrl: "#",
       color: "#FF0000",
       icon: SiYoutube,
+      stats: [],
+      badge: "Not Connected",
+      engagementScore: 0,
+      connected: false,
+    },
+    {
+      id: "linkedin",
+      platform: "LinkedIn",
+      username: "Connect Account",
+      profileUrl: "#",
+      color: "#0A66C2",
+      icon: SiLinkedin,
       stats: [],
       badge: "Not Connected",
       engagementScore: 0,
@@ -165,6 +177,32 @@ export const ExternalProfiles = () => {
           badge: "Active Coder",
           topSkills: ["Algorithms", "Data Structures", "Problem Solving"],
           engagementScore: Math.min(100, (totalSolved / 5)),
+          connected: true,
+        };
+        break;
+
+      case "codeforces":
+        const rating = data.rating || 0;
+        const maxRating = data.maxRating || 0;
+        const rank = data.rank || 'Unrated';
+        
+        profile = {
+          id: "codeforces",
+          platform: "Codeforces",
+          username: data.handle,
+          profileUrl: `https://codeforces.com/profile/${data.handle}`,
+          color: "#1F8ACB",
+          icon: SiCodeforces,
+          stats: [
+            { label: "Rating", value: rating, icon: Star },
+            { label: "Max Rating", value: maxRating, icon: TrendingUp },
+            { label: "Rank", value: rank, icon: Award },
+            { label: "Contests", value: data.totalContests || 0, icon: Code },
+          ],
+          recentActivity: `${rank} • ${data.totalContests || 0} contests participated`,
+          badge: rank !== 'Unrated' ? rank : 'Competitive Programmer',
+          topSkills: ["Algorithms", "Competitive Programming", "Problem Solving"],
+          engagementScore: Math.min(100, maxRating / 30),
           connected: true,
         };
         break;
