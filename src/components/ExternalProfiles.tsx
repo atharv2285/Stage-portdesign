@@ -182,6 +182,7 @@ export const ExternalProfiles = () => {
         break;
 
       case "codeforces":
+        console.log('Processing Codeforces data:', data);
         const rating = data.rating || 0;
         const maxRating = data.maxRating || 0;
         const rank = data.rank || 'Unrated';
@@ -189,7 +190,7 @@ export const ExternalProfiles = () => {
         profile = {
           id: "codeforces",
           platform: "Codeforces",
-          username: data.handle,
+          username: data.handle || "Unknown",
           profileUrl: `https://codeforces.com/profile/${data.handle}`,
           color: "#1F8ACB",
           icon: SiCodeforces,
@@ -205,6 +206,7 @@ export const ExternalProfiles = () => {
           engagementScore: Math.min(100, maxRating / 30),
           connected: true,
         };
+        console.log('Created Codeforces profile:', profile);
         break;
 
       case "youtube":
