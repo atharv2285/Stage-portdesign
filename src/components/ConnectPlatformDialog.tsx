@@ -77,9 +77,18 @@ export const ConnectPlatformDialog = ({
           return;
       }
 
+      console.log(`${platform} response status:`, response.status, response.ok);
+      console.log(`${platform} response headers:`, response.headers);
+      
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to fetch data');
+        const errorText = await response.text();
+        console.error(`${platform} error response:`, errorText);
+        try {
+          const error = JSON.parse(errorText);
+          throw new Error(error.error || 'Failed to fetch data');
+        } catch {
+          throw new Error(`Failed to fetch data (${response.status})`);
+        }
       }
 
       const data = await response.json();
