@@ -3,7 +3,7 @@ import cors from 'cors';
 import { Octokit } from '@octokit/rest';
 
 const app = express();
-const PORT = 5001;
+const PORT = Number(process.env.PORT) || 3001;
 
 app.use(cors());
 app.use(express.json());

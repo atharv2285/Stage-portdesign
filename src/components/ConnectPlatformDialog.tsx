@@ -27,39 +27,45 @@ export const ConnectPlatformDialog = ({
   const handleConnect = async () => {
     setIsLoading(true);
     try {
+      // Get backend URL - works on any platform
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
       let response;
       
       switch (platform) {
         case "leetcode":
           if (!username.trim()) {
             toast.error("Please enter your LeetCode username");
+            setIsLoading(false);
             return;
           }
-          response = await fetch(`http://localhost:5001/api/leetcode/user/${username}`);
+          response = await fetch(`${backendUrl}/api/leetcode/user/${username}`);
           break;
           
         case "codeforces":
           if (!username.trim()) {
             toast.error("Please enter your Codeforces handle");
+            setIsLoading(false);
             return;
           }
-          response = await fetch(`http://localhost:5001/api/codeforces/user/${username}`);
+          response = await fetch(`${backendUrl}/api/codeforces/user/${username}`);
           break;
           
         case "youtube":
           if (!channelId.trim()) {
             toast.error("Please enter your YouTube channel ID");
+            setIsLoading(false);
             return;
           }
-          response = await fetch(`http://localhost:5001/api/youtube/channel/${channelId}`);
+          response = await fetch(`${backendUrl}/api/youtube/channel/${channelId}`);
           break;
           
         case "linkedin":
           if (!profileUrl.trim()) {
             toast.error("Please enter your LinkedIn profile URL");
+            setIsLoading(false);
             return;
           }
-          response = await fetch(`http://localhost:5001/api/linkedin/profile`, {
+          response = await fetch(`${backendUrl}/api/linkedin/profile`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ profileUrl }),
@@ -68,6 +74,7 @@ export const ConnectPlatformDialog = ({
           
         default:
           toast.error("Platform not supported");
+          setIsLoading(false);
           return;
       }
 
