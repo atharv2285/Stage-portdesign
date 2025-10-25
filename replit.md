@@ -4,6 +4,26 @@ This is a professional portfolio web application built with React, TypeScript, a
 
 The portfolio serves as a comprehensive digital resume and project showcase, allowing users to present their work in a visually appealing and organized manner.
 
+## Recent Changes (October 25, 2025)
+
+### GitHub Integration Enhancement
+- Created Express.js backend server (port 5001) to handle GitHub API calls securely
+- Implemented proper token retrieval using Replit's GitHub connector
+- Added search and scroll functionality for repository selection
+- Repositories now automatically fetch live demo URLs from GitHub homepage field
+- GitHub logo set as default cover image for all imported projects
+
+### File Upload & Display
+- Added attachments section to project details dialog
+- Uploaded files (PDF, PPT, DOCX, images) now display with preview and download options
+- Form data properly resets when dialog is closed or canceled
+
+### Architecture Updates
+- Frontend (Vite) runs on port 5000
+- Backend (Express) runs on port 5001
+- Vite proxy configured to forward /api requests to backend
+- Both servers run concurrently via `bun run dev` command
+
 # User Preferences
 
 Preferred communication style: Simple, everyday language.
