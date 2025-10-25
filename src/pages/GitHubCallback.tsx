@@ -39,11 +39,12 @@ export const GitHubCallback = () => {
         });
 
         setStatus('success');
-        setMessage('Successfully connected to GitHub!');
+        setMessage('Successfully connected to GitHub! You can close this tab.');
 
         setTimeout(() => {
+          window.close();
           navigate('/');
-        }, 1500);
+        }, 2000);
       } catch (error: any) {
         console.error('GitHub OAuth error:', error);
         setStatus('error');

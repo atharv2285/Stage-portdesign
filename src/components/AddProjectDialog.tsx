@@ -322,7 +322,8 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
                   <Button 
                     onClick={async () => {
                       const authUrl = await githubAuthService.startOAuth();
-                      window.location.href = authUrl;
+                      window.open(authUrl, '_blank');
+                      toast.info('Complete the authorization in the new tab, then refresh this page');
                     }}
                     className="gap-2"
                   >
