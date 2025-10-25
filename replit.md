@@ -6,6 +6,16 @@ The portfolio serves as a comprehensive digital resume and project showcase, all
 
 ## Recent Changes (October 25, 2025)
 
+### Work Experience Enhancement
+- Added full CRUD (Create, Read, Update, Delete) functionality for work experiences
+- Integrated Brandfetch Logo API (free tier: 500K-1M requests/month) for company search
+- Company search with autocomplete dropdown showing logos and descriptions
+- Projects and skills fields for each work experience entry
+- Company logos display perfectly in timeline UI
+- localStorage persistence for all work experience data
+- Edit and delete buttons with hover effects
+- Beautiful timeline design with company logos fitting cleanly
+
 ### Investments Section Added
 - New "Investments" tab added between Competitions and Endorsements
 - Zerodha Kite Connect integration for portfolio tracking (holdings, positions, P&L)
@@ -110,6 +120,14 @@ Preferred communication style: Simple, everyday language.
 - `/api/market/indices` endpoint for NSE/BSE indices
 - Currently using demo data (can be replaced with real API)
 - Updates every 30 seconds in the frontend
+
+**Brandfetch Company Logo API**
+- Free tier: 500K-1M requests/month
+- Endpoint: `/api/company/search` for company autocomplete with logos
+- Endpoint: `/api/company/logo` for direct logo fetch by domain
+- No attribution required
+- High-quality logos with transparent backgrounds
+- Used in Work Experience section for company branding
 
 ### File Processing Libraries
 

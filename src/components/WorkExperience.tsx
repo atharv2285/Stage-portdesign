@@ -8,7 +8,7 @@ const STORAGE_KEY = "portfolio_work_experience";
 
 const defaultExperiences: WorkExperienceData[] = [
   {
-    id: "1",
+    id: "work-exp-1",
     company: "TechCorp AI",
     role: "Senior AI Engineer",
     period: "2023 - Present",
@@ -20,7 +20,7 @@ const defaultExperiences: WorkExperienceData[] = [
     skills: ["Python", "TensorFlow", "AWS", "Docker"],
   },
   {
-    id: "2",
+    id: "work-exp-2",
     company: "InnovateLabs",
     role: "Full Stack Developer",
     period: "2021 - 2023",
@@ -53,9 +53,7 @@ export const WorkExperience = () => {
   }, []);
 
   useEffect(() => {
-    if (experiences.length > 0) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(experiences));
-    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(experiences));
   }, [experiences]);
 
   const handleAddNew = () => {
