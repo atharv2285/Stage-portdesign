@@ -103,15 +103,21 @@ export const AchievementBadges = () => {
 
   return (
     <>
-      <div className="flex items-center gap-3 flex-wrap">
+      <div className="flex items-center gap-4 flex-wrap">
         {badges.map((badge) => (
           <div key={badge.id} className="group relative">
-            <Badge
-              className={`${badge.color} text-white border-0 px-4 py-2 text-sm font-semibold transition-all cursor-pointer shadow-md`}
-            >
-              {badge.text}
-            </Badge>
-            <div className="absolute top-0 right-0 -mt-1 -mr-1 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+            {/* Ribbon-style achievement badge */}
+            <div className="relative">
+              <div className={`${badge.color} text-white px-6 py-2 text-sm font-bold shadow-lg relative`}
+                   style={{
+                     clipPath: 'polygon(0 0, 100% 0, 95% 50%, 100% 100%, 0 100%, 5% 50%)',
+                     minWidth: '140px',
+                     textAlign: 'center'
+                   }}>
+                {badge.text}
+              </div>
+            </div>
+            <div className="absolute top-0 right-0 -mt-1 -mr-1 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 z-10">
               <button
                 onClick={() => handleEdit(badge)}
                 className="bg-white rounded-full p-1 shadow-md hover:bg-gray-100"
@@ -178,11 +184,16 @@ export const AchievementBadges = () => {
 
             <div className="space-y-2">
               <Label>Preview</Label>
-              <Badge
-                className={`${formColor} text-white border-0 px-4 py-2 text-sm font-semibold`}
-              >
-                {formText || "Preview"}
-              </Badge>
+              <div className="flex justify-center">
+                <div className={`${formColor} text-white px-6 py-2 text-sm font-bold shadow-lg`}
+                     style={{
+                       clipPath: 'polygon(0 0, 100% 0, 95% 50%, 100% 100%, 0 100%, 5% 50%)',
+                       minWidth: '140px',
+                       textAlign: 'center'
+                     }}>
+                  {formText || "Preview"}
+                </div>
+              </div>
             </div>
           </div>
 
