@@ -24,8 +24,14 @@ export async function handleFileUpload(file: File): Promise<FileUploadResult> {
   if (fileType === 'application/pdf') {
     preview = await extractPdfFirstPage(file);
     textContent = await extractPdfText(file);
+  } else if (fileType === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' || 
+             fileType === 'application/vnd.ms-powerpoint') {
+    // For PPT/PPTX, generate a placeholder preview
+    preview = await generatePptPlaceholder(fileName);
   } else if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
     textContent = await extractDocText(file);
+    // For DOCX, generate a placeholder preview
+    preview = await generateDocPlaceholder(fileName);
   } else if (fileType.startsWith('image/')) {
     preview = fileData;
   }
@@ -122,6 +128,70 @@ async function extractDocText(file: File): Promise<string> {
     console.error('Error extracting DOC text:', error);
     return '';
   }
+}
+
+async function generatePptPlaceholder(fileName: string): Promise<string> {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return '';
+  
+  canvas.width = 800;
+  canvas.height = 600;
+  
+  // Gradient background
+  const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+  gradient.addColorStop(0, '#4f46e5');
+  gradient.addColorStop(1, '#7c3aed');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  // File icon
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+  ctx.fillRect(300, 200, 200, 200);
+  
+  // Text
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 32px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('PowerPoint', canvas.width / 2, canvas.height / 2 - 40);
+  
+  ctx.font = '18px sans-serif';
+  const displayName = fileName.length > 30 ? fileName.substring(0, 27) + '...' : fileName;
+  ctx.fillText(displayName, canvas.width / 2, canvas.height / 2 + 20);
+  
+  return canvas.toDataURL('image/png');
+}
+
+async function generateDocPlaceholder(fileName: string): Promise<string> {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return '';
+  
+  canvas.width = 800;
+  canvas.height = 600;
+  
+  // Gradient background
+  const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+  gradient.addColorStop(0, '#2563eb');
+  gradient.addColorStop(1, '#1d4ed8');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  // File icon
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+  ctx.fillRect(300, 200, 200, 200);
+  
+  // Text
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 32px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Document', canvas.width / 2, canvas.height / 2 - 40);
+  
+  ctx.font = '18px sans-serif';
+  const displayName = fileName.length > 30 ? fileName.substring(0, 27) + '...' : fileName;
+  ctx.fillText(displayName, canvas.width / 2, canvas.height / 2 + 20);
+  
+  return canvas.toDataURL('image/png');
 }
 
 export function dataURItoBlob(dataURI: string): Blob {

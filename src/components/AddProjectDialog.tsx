@@ -210,6 +210,20 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
       
       setUploadedFiles(prev => [...prev, ...results]);
       
+      // Find the first file with a preview (PDF, PPT, DOC, or image)
+      const fileWithPreview = results.find(r => r.preview);
+      
+      // Automatically set the first preview as cover image
+      if (fileWithPreview?.preview) {
+        setProjectData(prev => ({
+          ...prev,
+          image: fileWithPreview.preview,
+          images: [fileWithPreview.preview]
+        }));
+        setUseFirstSlideAsCover(true);
+      }
+      
+      // Handle PDF links
       const pdfFile = results.find(r => r.fileType === 'application/pdf');
       if (pdfFile) {
         setProjectData(prev => ({
@@ -219,15 +233,6 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
             pdf: pdfFile.fileData
           }
         }));
-        
-        if (pdfFile.preview && !projectData.image) {
-          setProjectData(prev => ({
-            ...prev,
-            image: pdfFile.preview,
-            images: [pdfFile.preview]
-          }));
-          setUseFirstSlideAsCover(true);
-        }
       }
       
       toast.success(`Uploaded ${acceptedFiles.length} file(s)`);
@@ -237,7 +242,7 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
     } finally {
       setLoading(false);
     }
-  }, [projectData.image]);
+  }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -735,25 +740,6 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
                             className="hidden"
                           />
                         </label>
-                        {uploadedFiles.find(f => f.preview) && (
-                          <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => {
-                              const pdfPreview = uploadedFiles.find(f => f.preview);
-                              if (pdfPreview?.preview) {
-                                setProjectData(prev => ({
-                                  ...prev,
-                                  image: pdfPreview.preview,
-                                  images: [pdfPreview.preview]
-                                }));
-                                setUseFirstSlideAsCover(true);
-                              }
-                            }}
-                          >
-                            Use First Slide
-                          </Button>
-                        )}
                       </div>
                     </div>
                   </div>
