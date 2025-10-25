@@ -162,6 +162,50 @@ export const ProjectDialog = ({ project, open, onOpenChange }: ProjectDialogProp
             </div>
           )}
 
+          {/* Attachments */}
+          {project.attachments && project.attachments.length > 0 && (
+            <div>
+              <h3 className="text-sm font-semibold mb-3">Project Files</h3>
+              <div className="space-y-2">
+                {project.attachments.map((attachment, idx) => (
+                  <div key={idx} className="flex items-center gap-3 p-3 border rounded-lg bg-muted/50">
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">{attachment.fileName}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {attachment.fileType.includes('pdf') && 'PDF Document'}
+                        {attachment.fileType.includes('presentation') && 'Presentation'}
+                        {attachment.fileType.includes('word') && 'Word Document'}
+                        {attachment.fileType.includes('image') && 'Image'}
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      {attachment.preview && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => window.open(attachment.preview, '_blank')}
+                        >
+                          <ExternalLink className="w-4 h-4 mr-1" />
+                          Preview
+                        </Button>
+                      )}
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        asChild
+                      >
+                        <a href={attachment.fileData} download={attachment.fileName}>
+                          <Download className="w-4 h-4 mr-1" />
+                          Download
+                        </a>
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Links */}
           <div className="flex flex-wrap gap-2">
             {project.links.github && (

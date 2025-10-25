@@ -109,7 +109,8 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
         completionDate: completionDate,
         outcome: outcome,
         links: {
-          github: details.repo.html_url
+          github: details.repo.html_url,
+          demo: details.repo.homepage || undefined
         },
         image: '/github-logo.jpg',
         images: ['/github-logo.jpg']
