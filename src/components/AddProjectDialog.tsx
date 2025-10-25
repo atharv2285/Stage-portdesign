@@ -80,6 +80,17 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
       console.log('Received message:', event.data);
       if (event.data.type === 'GITHUB_AUTH_SUCCESS') {
         console.log('GitHub auth success message received!');
+        
+        // Store the token and user info in THIS window's localStorage
+        if (event.data.token) {
+          console.log('Storing token in main window localStorage');
+          githubAuthService.setToken(event.data.token);
+        }
+        if (event.data.user) {
+          console.log('Storing user info:', event.data.user.login);
+          githubAuthService.setUserInfo(event.data.user);
+        }
+        
         // Force refresh the auth state
         setIsGitHubConnected(false);
         setGithubUser(null);

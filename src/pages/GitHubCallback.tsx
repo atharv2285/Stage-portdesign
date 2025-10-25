@@ -48,9 +48,10 @@ export const GitHubCallback = () => {
 
         // Notify the parent window if opened via window.open
         if (window.opener && !window.opener.closed) {
-          console.log('Sending message to parent window');
+          console.log('Sending message to parent window with token and user info');
           window.opener.postMessage({ 
             type: 'GITHUB_AUTH_SUCCESS',
+            token: token,
             user: userInfo
           }, '*');
         } else {
