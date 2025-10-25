@@ -36,6 +36,7 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
   
   const [githubRepos, setGithubRepos] = useState<any[]>([]);
   const [selectedRepo, setSelectedRepo] = useState<RepoDetails | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   
   const [uploadedFiles, setUploadedFiles] = useState<FileUploadResult[]>([]);
   
@@ -110,8 +111,8 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
         links: {
           github: details.repo.html_url
         },
-        image: details.repo.owner.avatar_url || '',
-        images: details.repo.owner.avatar_url ? [details.repo.owner.avatar_url] : []
+        image: '/github-logo.jpg',
+        images: ['/github-logo.jpg']
       });
       
       toast.success('Repository imported successfully');
@@ -287,54 +288,73 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
             <TabsContent value="github" className="space-y-4">
               {!selectedRepo && (
                 <>
-                  <Button 
-                    onClick={loadGithubRepos} 
-                    disabled={loading}
-                    className="w-full"
-                  >
-                    {loading ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Loading...
-                      </>
-                    ) : (
-                      <>
-                        <Search className="w-4 h-4 mr-2" />
-                        Load My Repositories
-                      </>
-                    )}
-                  </Button>
-
-                  {githubRepos.length > 0 && (
-                    <div className="space-y-2">
-                      {githubRepos.map((repo) => (
-                        <div
-                          key={repo.full_name}
-                          onClick={() => selectGithubRepo(repo.full_name)}
-                          className="p-4 border rounded-lg cursor-pointer hover:bg-accent transition-colors"
-                        >
-                          <div className="flex items-start justify-between">
-                            <div className="flex-1">
-                              <h4 className="font-semibold">{repo.name}</h4>
-                              <p className="text-sm text-muted-foreground mt-1">
-                                {repo.description || 'No description'}
-                              </p>
-                              <div className="flex gap-2 mt-2">
-                                {repo.language && (
-                                  <Badge variant="secondary" className="text-xs">
-                                    {repo.language}
-                                  </Badge>
-                                )}
-                                <Badge variant="outline" className="text-xs">
-                                  ⭐ {repo.stargazers_count}
-                                </Badge>
+                  {githubRepos.length === 0 ? (
+                    <Button 
+                      onClick={loadGithubRepos} 
+                      disabled={loading}
+                      className="w-full"
+                    >
+                      {loading ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Loading...
+                        </>
+                      ) : (
+                        <>
+                          <Github className="w-4 h-4 mr-2" />
+                          Load My Repositories
+                        </>
+                      )}
+                    </Button>
+                  ) : (
+                    <>
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Input
+                          placeholder="Search repositories..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          className="pl-10"
+                        />
+                      </div>
+                      
+                      <div className="max-h-96 overflow-y-auto space-y-2 border rounded-lg p-2">
+                        {githubRepos
+                          .filter(repo => 
+                            repo.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            repo.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            repo.language?.toLowerCase().includes(searchQuery.toLowerCase())
+                          )
+                          .map((repo) => (
+                            <div
+                              key={repo.full_name}
+                              onClick={() => selectGithubRepo(repo.full_name)}
+                              className="p-3 border rounded-lg cursor-pointer hover:bg-accent transition-colors"
+                            >
+                              <div className="flex items-start justify-between">
+                                <div className="flex-1">
+                                  <h4 className="font-semibold text-sm">{repo.name}</h4>
+                                  <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                                    {repo.description || 'No description'}
+                                  </p>
+                                  <div className="flex gap-2 mt-2">
+                                    {repo.language && (
+                                      <Badge variant="secondary" className="text-xs">
+                                        {repo.language}
+                                      </Badge>
+                                    )}
+                                    <Badge variant="outline" className="text-xs">
+                                      ⭐ {repo.stargazers_count}
+                                    </Badge>
+                                  </div>
+                                </div>
+                                <Check className="w-4 h-4 text-muted-foreground ml-2 flex-shrink-0" />
                               </div>
                             </div>
-                            <Check className="w-5 h-5 text-muted-foreground" />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                          ))
+                        }
+                      </div>
+                    </>
                   )}
                 </>
               )}

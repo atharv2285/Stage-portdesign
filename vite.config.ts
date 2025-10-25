@@ -12,6 +12,12 @@ export default defineConfig(({ mode }) => ({
     watch: {
       ignored: ['**/.cache/**', '**/node_modules/**'],
     },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5001',
+        changeOrigin: true,
+      },
+    },
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
