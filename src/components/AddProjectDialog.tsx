@@ -78,13 +78,28 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
     // Listen for GitHub auth success from OAuth popup
     const handleMessage = async (event: MessageEvent) => {
       if (event.data.type === 'GITHUB_AUTH_SUCCESS') {
-        await checkGitHubAuth();
-        toast.success('GitHub connected successfully!');
+        // Force refresh the auth state
+        setIsGitHubConnected(false);
+        setGithubUser(null);
+        setTimeout(async () => {
+          await checkGitHubAuth();
+          toast.success('GitHub connected successfully!');
+        }, 500);
       }
     };
     
     window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
+    
+    // Also check for auth changes on storage events (cross-tab)
+    const handleStorageChange = () => {
+      checkGitHubAuth();
+    };
+    window.addEventListener('storage', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('message', handleMessage);
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, [open]);
   
   const [projectData, setProjectData] = useState<Partial<ProjectData>>({
@@ -348,17 +363,50 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
                   <p className="text-sm text-muted-foreground mb-6">
                     Connect your GitHub account to import repositories and showcase your projects. Your data stays secure in your browser.
                   </p>
-                  <Button 
-                    onClick={async () => {
-                      const authUrl = await githubAuthService.startOAuth();
-                      window.open(authUrl, '_blank');
-                      toast.info('Complete the authorization in the new tab, then refresh this page');
-                    }}
-                    className="gap-2"
-                  >
-                    <Github className="w-4 h-4" />
-                    Connect GitHub
-                  </Button>
+                  <div className="flex gap-2 justify-center">
+                    <Button 
+                      onClick={async () => {
+                        const authUrl = await githubAuthService.startOAuth();
+                        window.open(authUrl, '_blank');
+                        toast.info('Complete the authorization in the new tab');
+                      }}
+                      className="gap-2"
+                    >
+                      <Github className="w-4 h-4" />
+                      Connect GitHub
+                    </Button>
+                    <Button 
+                      variant="outline"
+                      onClick={async () => {
+                        const connected = githubAuthService.isAuthenticated();
+                        if (connected) {
+                          setIsGitHubConnected(false);
+                          setTimeout(async () => {
+                            const check = githubAuthService.isAuthenticated();
+                            setIsGitHubConnected(check);
+                            if (check) {
+                              const githubUser = await getAuthenticatedUser();
+                              const user = {
+                                login: githubUser.login,
+                                name: githubUser.name,
+                                avatar_url: githubUser.avatar_url,
+                                html_url: githubUser.html_url
+                              };
+                              githubAuthService.setUserInfo(user);
+                              setGithubUser(user);
+                              toast.success('Connection detected!');
+                            } else {
+                              toast.error('No connection found');
+                            }
+                          }, 100);
+                        } else {
+                          toast.error('Please connect your GitHub account first');
+                        }
+                      }}
+                    >
+                      Refresh Status
+                    </Button>
+                  </div>
                 </div>
               ) : githubRepos.length === 0 ? (
                 <div className="space-y-4">
