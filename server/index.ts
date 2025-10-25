@@ -368,19 +368,26 @@ app.post('/api/linkedin/profile', async (req, res) => {
 app.get('/api/codeforces/user/:handle', async (req, res) => {
   try {
     const { handle } = req.params;
+    console.log(`Fetching Codeforces data for: ${handle}`);
     
     // Get user info
-    const infoResponse = await fetch(
-      `https://codeforces.com/api/user.info?handles=${handle}`
-    );
+    const infoUrl = `https://codeforces.com/api/user.info?handles=${handle}`;
+    console.log(`Requesting: ${infoUrl}`);
+    
+    const infoResponse = await fetch(infoUrl);
+    console.log(`Codeforces API response status: ${infoResponse.status}`);
 
     if (!infoResponse.ok) {
-      return res.status(500).json({ error: 'Failed to fetch Codeforces data' });
+      const errorText = await infoResponse.text();
+      console.error('Codeforces API error response:', errorText);
+      return res.status(500).json({ error: 'Failed to fetch Codeforces data', details: errorText });
     }
 
     const infoData = await infoResponse.json();
+    console.log('Codeforces API response:', JSON.stringify(infoData));
 
     if (infoData.status !== 'OK') {
+      console.error('Codeforces API returned non-OK status:', infoData);
       return res.status(404).json({ error: infoData.comment || 'User not found' });
     }
 
@@ -399,12 +406,15 @@ app.get('/api/codeforces/user/:handle', async (req, res) => {
       }
     }
 
-    res.json({
+    const result = {
       ...user,
       totalContests,
-    });
+    };
+    console.log('Sending Codeforces response:', JSON.stringify(result));
+    res.json(result);
   } catch (error: any) {
     console.error('Codeforces API error:', error);
+    console.error('Error stack:', error.stack);
     res.status(500).json({ error: error.message || 'Failed to fetch Codeforces stats' });
   }
 });
