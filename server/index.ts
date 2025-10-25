@@ -483,6 +483,72 @@ app.get('/api/market/indices', async (req, res) => {
   }
 });
 
+// Company logo and info endpoint using Brandfetch (free API)
+app.get('/api/company/search', async (req, res) => {
+  try {
+    const { query } = req.query;
+    
+    if (!query || typeof query !== 'string') {
+      return res.status(400).json({ error: 'Company query parameter is required' });
+    }
+
+    // Use Brandfetch Search API to find companies
+    const searchResponse = await fetch(
+      `https://api.brandfetch.io/v2/search/${encodeURIComponent(query)}`,
+      {
+        headers: {
+          'Accept': 'application/json'
+        }
+      }
+    );
+
+    if (!searchResponse.ok) {
+      throw new Error(`Brandfetch search failed: ${searchResponse.statusText}`);
+    }
+
+    const results = await searchResponse.json();
+    
+    // Format the results for frontend
+    const companies = results.map((item: any) => ({
+      name: item.name,
+      domain: item.domain,
+      icon: item.icon || `https://img.logo.dev/${item.domain}?token=pk_K9f7eo8kTJ6Z_hhQYR9LGQ`,
+      description: item.description || '',
+      industry: item.industry || ''
+    }));
+
+    res.json({ companies: companies.slice(0, 10) }); // Return top 10 results
+  } catch (error: any) {
+    console.error('Company search failed:', error);
+    res.status(500).json({ 
+      error: 'Failed to search companies',
+      details: error.message 
+    });
+  }
+});
+
+// Get company logo by domain
+app.get('/api/company/logo', async (req, res) => {
+  try {
+    const { domain } = req.query;
+    
+    if (!domain || typeof domain !== 'string') {
+      return res.status(400).json({ error: 'Domain parameter is required' });
+    }
+
+    // Logo.dev provides free logo access (no API key needed for basic use)
+    const logoUrl = `https://img.logo.dev/${domain}?token=pk_K9f7eo8kTJ6Z_hhQYR9LGQ`;
+    
+    res.json({ logoUrl });
+  } catch (error: any) {
+    console.error('Logo fetch failed:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch company logo',
+      details: error.message 
+    });
+  }
+});
+
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Backend server is running' });
 });
