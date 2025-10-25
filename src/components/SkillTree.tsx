@@ -2,7 +2,6 @@ import { useCallback, useState } from "react";
 import ReactFlow, {
   Node,
   Edge,
-  Controls,
   Background,
   useNodesState,
   useEdgesState,
@@ -812,17 +811,21 @@ export const SkillTree = () => {
             onNodeClick={onNodeClick}
             nodeTypes={nodeTypes}
             fitView
-            minZoom={0.5}
-            maxZoom={2}
-            zoomOnScroll={true}
-            panOnDrag={true}
-            preventScrolling={false}
+            fitViewOptions={{ padding: 0.2 }}
+            minZoom={1}
+            maxZoom={1}
+            zoomOnScroll={false}
+            zoomOnPinch={false}
+            zoomOnDoubleClick={false}
+            panOnDrag={false}
+            panOnScroll={false}
+            nodesDraggable={true}
+            preventScrolling={true}
             defaultEdgeOptions={{
               type: "default",
               animated: false,
             }}
           >
-            <Controls showZoom={true} showInteractive={false} />
             <Background color="#e2e8f0" gap={20} size={1} />
           </ReactFlow>
         </Card>
