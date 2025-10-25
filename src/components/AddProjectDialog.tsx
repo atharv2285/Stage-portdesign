@@ -56,6 +56,17 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
     if (open) {
       checkGitHubAuth();
     }
+    
+    // Listen for GitHub auth success from OAuth popup
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data.type === 'GITHUB_AUTH_SUCCESS') {
+        checkGitHubAuth();
+        toast.success('GitHub connected successfully!');
+      }
+    };
+    
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
   }, [open]);
   
   const [projectData, setProjectData] = useState<Partial<ProjectData>>({

@@ -39,12 +39,16 @@ export const GitHubCallback = () => {
         });
 
         setStatus('success');
-        setMessage('Successfully connected to GitHub! You can close this tab.');
+        setMessage('Successfully connected to GitHub! Closing tab...');
+
+        // Notify the parent window if opened via window.open
+        if (window.opener && !window.opener.closed) {
+          window.opener.postMessage({ type: 'GITHUB_AUTH_SUCCESS' }, '*');
+        }
 
         setTimeout(() => {
           window.close();
-          navigate('/');
-        }, 2000);
+        }, 1500);
       } catch (error: any) {
         console.error('GitHub OAuth error:', error);
         setStatus('error');
