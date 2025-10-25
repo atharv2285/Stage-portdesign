@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -54,6 +54,12 @@ export const ResumeEditor = ({ open, onOpenChange, resumeData, onSave }: ResumeE
   const [formData, setFormData] = useState<ResumeData>(resumeData);
   const [newLanguage, setNewLanguage] = useState("");
   const [newSkill, setNewSkill] = useState("");
+
+  useEffect(() => {
+    if (open) {
+      setFormData(resumeData);
+    }
+  }, [open, resumeData]);
 
   const handleSave = () => {
     onSave(formData);

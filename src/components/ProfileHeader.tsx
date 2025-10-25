@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import avatarImg from "@/assets/avatar.jpg";
 import heroGraphic from "@/assets/hero-graphic.png";
+import { AchievementBadges } from "./AchievementBadges";
 
 export const ProfileHeader = () => {
   return (
@@ -36,10 +37,12 @@ export const ProfileHeader = () => {
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 mb-4">
                     <Button variant="portfolio" size="lg">Message</Button>
                     <Button variant="outline" size="lg">Follow</Button>
                   </div>
+
+                  <AchievementBadges />
                 </div>
               </div>
             </div>
