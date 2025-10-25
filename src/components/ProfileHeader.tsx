@@ -50,7 +50,7 @@ export const ProfileHeader = () => {
                   {/* Front Side - Colorful Graphic */}
                   <div className="flip-card-front absolute inset-0 backface-hidden rounded-2xl overflow-hidden shadow-2xl border-4 border-primary/20">
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500"></div>
-                    <div className="absolute inset-0 flex items-center justify-center p-12">
+                    <div className="absolute inset-0 flex items-center justify-center p-4">
                       <img 
                         src={heroGraphic} 
                         alt="Creative design graphic" 
