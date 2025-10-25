@@ -103,11 +103,11 @@ export const AchievementBadges = () => {
 
   return (
     <>
-      <div className="flex items-center gap-2 flex-wrap">
+      <div className="flex items-center justify-center gap-3 flex-wrap">
         {badges.map((badge) => (
           <div key={badge.id} className="group relative">
             <Badge
-              className={`${badge.color} text-white border-0 px-4 py-2 text-sm font-semibold transition-all cursor-pointer`}
+              className={`${badge.color} text-white border-0 px-4 py-2 text-sm font-semibold transition-all cursor-pointer shadow-md`}
             >
               {badge.text}
             </Badge>

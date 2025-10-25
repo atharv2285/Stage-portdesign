@@ -44,10 +44,6 @@ export const ProfileHeader = () => {
                 </div>
               </div>
 
-              {/* Achievement Badges - utilizing white space */}
-              <div className="mt-6">
-                <AchievementBadges />
-              </div>
             </div>
 
             <div className="hidden lg:block perspective-1000">
@@ -79,6 +75,11 @@ export const ProfileHeader = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Achievement Badges - centered below entire section */}
+          <div className="mt-12 flex justify-center">
+            <AchievementBadges />
           </div>
         </div>
       </div>
