@@ -333,6 +333,7 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
       image: '',
       images: []
     });
+    setTechInput('');
     setSelectedRepo(null);
     setUploadedFiles([]);
     setGithubRepos([]);
