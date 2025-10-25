@@ -20,9 +20,10 @@ The portfolio serves as a comprehensive digital resume and project showcase, all
 
 ### Architecture Updates
 - Frontend (Vite) runs on port 5000
-- Backend (Express) runs on port 5001
+- Backend (Express) runs on port 3001
 - Vite proxy configured to forward /api requests to backend
 - Both servers run concurrently via `bun run dev` command
+- Frontend uses relative URLs (/api/*) for API calls to work across all hosting platforms
 
 # User Preferences
 

@@ -27,8 +27,7 @@ export const ConnectPlatformDialog = ({
   const handleConnect = async () => {
     setIsLoading(true);
     try {
-      // Get backend URL - works on any platform
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
+      // Use relative URLs so Vite proxy forwards to backend
       let response;
       
       switch (platform) {
@@ -38,7 +37,7 @@ export const ConnectPlatformDialog = ({
             setIsLoading(false);
             return;
           }
-          response = await fetch(`${backendUrl}/api/leetcode/user/${username}`);
+          response = await fetch(`/api/leetcode/user/${username}`);
           break;
           
         case "codeforces":
@@ -47,7 +46,7 @@ export const ConnectPlatformDialog = ({
             setIsLoading(false);
             return;
           }
-          response = await fetch(`${backendUrl}/api/codeforces/user/${username}`);
+          response = await fetch(`/api/codeforces/user/${username}`);
           break;
           
         case "youtube":
@@ -56,7 +55,7 @@ export const ConnectPlatformDialog = ({
             setIsLoading(false);
             return;
           }
-          response = await fetch(`${backendUrl}/api/youtube/channel/${channelId}`);
+          response = await fetch(`/api/youtube/channel/${channelId}`);
           break;
           
         case "linkedin":
@@ -65,7 +64,7 @@ export const ConnectPlatformDialog = ({
             setIsLoading(false);
             return;
           }
-          response = await fetch(`${backendUrl}/api/linkedin/profile`, {
+          response = await fetch(`/api/linkedin/profile`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ profileUrl }),
