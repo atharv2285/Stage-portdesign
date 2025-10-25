@@ -320,8 +320,9 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
   };
 
   const resetForm = () => {
+    console.log('Resetting form...');
     setProjectData({
-      id: nextId + 1,
+      id: nextId,
       title: '',
       category: '',
       tagline: '',
@@ -340,6 +341,7 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
     setSearchQuery('');
     setUseFirstSlideAsCover(false);
     setActiveTab('github');
+    setLoading(false);
   };
 
   return (
@@ -761,7 +763,10 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
           </div>
 
           <div className="flex justify-end gap-2 pt-4 border-t flex-shrink-0">
-            <Button variant="outline" onClick={() => onOpenChange(false)}>
+            <Button variant="outline" onClick={() => {
+              resetForm();
+              onOpenChange(false);
+            }}>
               Cancel
             </Button>
             <Button onClick={handleSave} disabled={loading}>
