@@ -37,16 +37,17 @@ export const ProfileHeader = () => {
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-3 mb-4">
+                  <div className="flex items-center gap-3">
                     <Button variant="portfolio" size="lg">Message</Button>
                     <Button variant="outline" size="lg">Follow</Button>
                   </div>
-
-                  {/* Achievement Badges - below buttons */}
-                  <AchievementBadges />
                 </div>
               </div>
 
+              {/* Achievement Badges - utilizing the white space below buttons */}
+              <div className="mt-8">
+                <AchievementBadges />
+              </div>
             </div>
 
             <div className="hidden lg:block perspective-1000">
