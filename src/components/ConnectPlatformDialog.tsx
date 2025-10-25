@@ -77,9 +77,6 @@ export const ConnectPlatformDialog = ({
           return;
       }
 
-      console.log(`${platform} response status:`, response.status, response.ok);
-      console.log(`${platform} response headers:`, response.headers);
-      
       if (!response.ok) {
         const errorText = await response.text();
         console.error(`${platform} error response:`, errorText);
@@ -92,7 +89,6 @@ export const ConnectPlatformDialog = ({
       }
 
       const data = await response.json();
-      console.log(`${platform} data received:`, data);
       onConnect(data);
       toast.success(`Successfully connected ${platform}!`);
       onClose();
@@ -101,7 +97,6 @@ export const ConnectPlatformDialog = ({
       setProfileUrl("");
     } catch (error: any) {
       console.error(`${platform} connection error:`, error);
-      console.error('Error details:', error.message, error.stack);
       toast.error(error.message || `Failed to connect ${platform}`);
     } finally {
       setIsLoading(false);
