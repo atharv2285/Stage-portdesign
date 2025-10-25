@@ -46,6 +46,11 @@ export const ProfileHeader = () => {
 
             </div>
 
+            {/* Achievement Badges - left of graphic card */}
+            <div className="hidden lg:flex lg:items-center lg:justify-center lg:flex-1">
+              <AchievementBadges />
+            </div>
+
             <div className="hidden lg:block perspective-1000">
               <div className="flip-card w-96 h-96 cursor-pointer" data-testid="card-about-flip">
                 <div className="flip-card-inner w-full h-full relative transition-transform duration-700 transform-style-3d">
@@ -77,8 +82,8 @@ export const ProfileHeader = () => {
             </div>
           </div>
 
-          {/* Achievement Badges - centered below entire section */}
-          <div className="mt-12 flex justify-center">
+          {/* Achievement Badges - mobile view */}
+          <div className="lg:hidden mt-8 flex justify-center">
             <AchievementBadges />
           </div>
         </div>
