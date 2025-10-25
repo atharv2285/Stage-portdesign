@@ -4,6 +4,7 @@ export interface GitHubRepo {
   full_name: string;
   description: string;
   html_url: string;
+  homepage: string | null;
   language: string;
   languages_url: string;
   stargazers_count: number;
