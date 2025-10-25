@@ -10,6 +10,7 @@ import { Endorsements } from "@/components/Endorsements";
 import { Resume } from "@/components/Resume";
 import { Competitions } from "@/components/Competitions";
 import { ExternalProfiles } from "@/components/ExternalProfiles";
+import { Investments } from "@/components/Investments";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
@@ -215,6 +216,13 @@ const Index = () => {
                   Competitions
                 </TabsTrigger>
                 <TabsTrigger 
+                  value="investments"
+                  className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4"
+                  data-testid="tab-investments"
+                >
+                  Investments
+                </TabsTrigger>
+                <TabsTrigger 
                   value="endorsements"
                   className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4"
                 >
@@ -275,6 +283,10 @@ const Index = () => {
 
             <TabsContent value="competitions" className="py-12">
               <Competitions onProjectClick={handleCompetitionProjectClick} />
+            </TabsContent>
+
+            <TabsContent value="investments" className="py-12">
+              <Investments />
             </TabsContent>
 
             <TabsContent value="endorsements" className="py-12">

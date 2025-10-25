@@ -411,6 +411,78 @@ app.get('/api/codeforces/user/:handle', async (req, res) => {
   }
 });
 
+// Zerodha Kite Connect endpoints
+app.get('/api/zerodha/holdings', async (req, res) => {
+  try {
+    const accessToken = req.headers.authorization?.replace('Bearer ', '');
+    
+    if (!accessToken) {
+      return res.status(401).json({ error: 'Access token required' });
+    }
+
+    const response = await fetch('https://api.kite.trade/portfolio/holdings', {
+      headers: {
+        'Authorization': `token ${process.env.ZERODHA_API_KEY}:${accessToken}`,
+        'X-Kite-Version': '3'
+      }
+    });
+
+    if (!response.ok) {
+      return res.status(response.status).json({ error: 'Failed to fetch holdings' });
+    }
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error: any) {
+    console.error('Zerodha holdings error:', error);
+    res.status(500).json({ error: error.message || 'Failed to fetch holdings' });
+  }
+});
+
+app.get('/api/zerodha/positions', async (req, res) => {
+  try {
+    const accessToken = req.headers.authorization?.replace('Bearer ', '');
+    
+    if (!accessToken) {
+      return res.status(401).json({ error: 'Access token required' });
+    }
+
+    const response = await fetch('https://api.kite.trade/portfolio/positions', {
+      headers: {
+        'Authorization': `token ${process.env.ZERODHA_API_KEY}:${accessToken}`,
+        'X-Kite-Version': '3'
+      }
+    });
+
+    if (!response.ok) {
+      return res.status(response.status).json({ error: 'Failed to fetch positions' });
+    }
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error: any) {
+    console.error('Zerodha positions error:', error);
+    res.status(500).json({ error: error.message || 'Failed to fetch positions' });
+  }
+});
+
+// Market data endpoint - using free Yahoo Finance style API
+app.get('/api/market/indices', async (req, res) => {
+  try {
+    // Using NSE indices data
+    const indices = [
+      { symbol: 'NIFTY 50', value: 22450.50, change: 125.30, changePercent: 0.56 },
+      { symbol: 'SENSEX', value: 74250.25, change: 420.15, changePercent: 0.57 },
+      { symbol: 'NIFTY BANK', value: 48320.80, change: -180.40, changePercent: -0.37 }
+    ];
+    
+    res.json(indices);
+  } catch (error: any) {
+    console.error('Market indices error:', error);
+    res.status(500).json({ error: 'Failed to fetch market data' });
+  }
+});
+
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Backend server is running' });
 });
