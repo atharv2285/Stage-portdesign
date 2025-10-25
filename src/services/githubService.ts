@@ -36,8 +36,20 @@ export interface RepoDetails {
   languages: { [key: string]: number };
 }
 
+function getAuthHeaders(): HeadersInit {
+  const token = localStorage.getItem('github_access_token');
+  if (token) {
+    return {
+      'Authorization': `Bearer ${token}`
+    };
+  }
+  return {};
+}
+
 export async function getAuthenticatedUserRepos(): Promise<GitHubRepo[]> {
-  const response = await fetch('/api/github/repos');
+  const response = await fetch('/api/github/repos', {
+    headers: getAuthHeaders()
+  });
   
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({ error: 'Failed to fetch repositories' }));
@@ -49,7 +61,9 @@ export async function getAuthenticatedUserRepos(): Promise<GitHubRepo[]> {
 }
 
 export async function getRepoDetails(owner: string, repo: string): Promise<RepoDetails> {
-  const response = await fetch(`/api/github/repos/${owner}/${repo}`);
+  const response = await fetch(`/api/github/repos/${owner}/${repo}`, {
+    headers: getAuthHeaders()
+  });
   
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({ error: 'Failed to fetch repository details' }));
@@ -61,7 +75,9 @@ export async function getRepoDetails(owner: string, repo: string): Promise<RepoD
 }
 
 export async function getAuthenticatedUser(): Promise<GitHubUser> {
-  const response = await fetch('/api/github/user');
+  const response = await fetch('/api/github/user', {
+    headers: getAuthHeaders()
+  });
   
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({ error: 'Failed to fetch user profile' }));

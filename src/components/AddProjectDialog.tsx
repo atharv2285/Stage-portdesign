@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -16,12 +16,14 @@ import {
   Search,
   Plus,
   X,
-  Check
+  Check,
+  LogOut
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { getAuthenticatedUserRepos, getRepoDetails, RepoDetails } from '@/services/githubService';
 import { handleFileUpload, FileUploadResult } from '@/services/fileService';
 import { ProjectData } from '@/components/ProjectDialog';
+import { githubAuthService } from '@/services/githubAuthService';
 
 interface AddProjectDialogProps {
   open: boolean;
@@ -34,11 +36,27 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
   const [activeTab, setActiveTab] = useState<'github' | 'upload'>('github');
   const [loading, setLoading] = useState(false);
   
+  const [isGitHubConnected, setIsGitHubConnected] = useState(false);
+  const [githubUser, setGithubUser] = useState<any>(null);
   const [githubRepos, setGithubRepos] = useState<any[]>([]);
   const [selectedRepo, setSelectedRepo] = useState<RepoDetails | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   
   const [uploadedFiles, setUploadedFiles] = useState<FileUploadResult[]>([]);
+  
+  useEffect(() => {
+    const checkGitHubAuth = async () => {
+      const connected = githubAuthService.isAuthenticated();
+      setIsGitHubConnected(connected);
+      if (connected) {
+        const user = await githubAuthService.getUserInfo();
+        setGithubUser(user);
+      }
+    };
+    if (open) {
+      checkGitHubAuth();
+    }
+  }, [open]);
   
   const [projectData, setProjectData] = useState<Partial<ProjectData>>({
     id: nextId,
@@ -294,24 +312,70 @@ export function AddProjectDialog({ open, onOpenChange, onSave, nextId }: AddProj
 
           <div className="flex-1 overflow-y-auto mt-4">
             <TabsContent value="github" className="space-y-4">
-              {githubRepos.length === 0 ? (
-                <Button 
-                  onClick={loadGithubRepos} 
-                  disabled={loading}
-                  className="w-full"
-                >
-                  {loading ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Loading...
-                    </>
-                  ) : (
-                    <>
-                      <Github className="w-4 h-4 mr-2" />
-                      Load My Repositories
-                    </>
+              {!isGitHubConnected ? (
+                <div className="text-center p-8 border-2 border-dashed rounded-lg">
+                  <Github className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+                  <h3 className="text-lg font-semibold mb-2">Connect Your GitHub Account</h3>
+                  <p className="text-sm text-muted-foreground mb-6">
+                    Connect your GitHub account to import repositories and showcase your projects. Your data stays secure in your browser.
+                  </p>
+                  <Button 
+                    onClick={async () => {
+                      const authUrl = await githubAuthService.startOAuth();
+                      window.location.href = authUrl;
+                    }}
+                    className="gap-2"
+                  >
+                    <Github className="w-4 h-4" />
+                    Connect GitHub
+                  </Button>
+                </div>
+              ) : githubRepos.length === 0 ? (
+                <div className="space-y-4">
+                  {githubUser && (
+                    <div className="flex items-center justify-between p-3 border rounded-lg bg-accent/50">
+                      <div className="flex items-center gap-3">
+                        <img src={githubUser.avatar_url} alt={githubUser.name} className="w-10 h-10 rounded-full" />
+                        <div>
+                          <p className="font-semibold text-sm">{githubUser.name}</p>
+                          <p className="text-xs text-muted-foreground">@{githubUser.login}</p>
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          githubAuthService.disconnect();
+                          setIsGitHubConnected(false);
+                          setGithubUser(null);
+                          setGithubRepos([]);
+                          toast.success('Disconnected from GitHub');
+                        }}
+                        className="gap-2"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Disconnect
+                      </Button>
+                    </div>
                   )}
-                </Button>
+                  <Button 
+                    onClick={loadGithubRepos} 
+                    disabled={loading}
+                    className="w-full"
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Loading...
+                      </>
+                    ) : (
+                      <>
+                        <Github className="w-4 h-4 mr-2" />
+                        Load My Repositories
+                      </>
+                    )}
+                  </Button>
+                </div>
               ) : (
                 <>
                   <div className="flex items-center gap-2">
