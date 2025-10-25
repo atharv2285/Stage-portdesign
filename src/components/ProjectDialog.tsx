@@ -35,6 +35,12 @@ export interface ProjectData {
     text: string;
     avatar: string;
   };
+  attachments?: Array<{
+    fileName: string;
+    fileType: string;
+    fileData: string;
+    preview?: string;
+  }>;
 }
 
 interface ProjectDialogProps {

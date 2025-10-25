@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { ProfileHeader } from "@/components/ProfileHeader";
 import { PortfolioItem } from "@/components/PortfolioItem";
 import { ProjectDialog, ProjectData } from "@/components/ProjectDialog";
+import { AddProjectDialog } from "@/components/AddProjectDialog";
 import { WorkExperience } from "@/components/WorkExperience";
 import { SkillTree } from "@/components/SkillTree";
 import { Endorsements } from "@/components/Endorsements";
@@ -11,7 +12,8 @@ import { Competitions } from "@/components/Competitions";
 import { ExternalProfiles } from "@/components/ExternalProfiles";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Plus } from "lucide-react";
+import { useProjectStorage } from "@/hooks/useProjectStorage";
 
 import portfolio1 from "@/assets/portfolio-1.jpg";
 import portfolio2 from "@/assets/portfolio-2.jpg";
@@ -147,6 +149,11 @@ const portfolioItems: ProjectData[] = [
 const Index = () => {
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
+  
+  const { projects: userProjects, addProject, getNextId } = useProjectStorage();
+  
+  const allProjects = [...portfolioItems, ...userProjects];
 
   const handleProjectClick = (project: ProjectData) => {
     setSelectedProject(project);
@@ -154,10 +161,14 @@ const Index = () => {
   };
 
   const handleCompetitionProjectClick = (projectId: number) => {
-    const project = portfolioItems.find(item => item.id === projectId);
+    const project = allProjects.find(item => item.id === projectId);
     if (project) {
       handleProjectClick(project);
     }
+  };
+  
+  const handleAddProject = (project: ProjectData) => {
+    addProject(project);
   };
 
   return (
@@ -165,6 +176,12 @@ const Index = () => {
       <Header />
       <ProfileHeader />
       <ProjectDialog project={selectedProject} open={dialogOpen} onOpenChange={setDialogOpen} />
+      <AddProjectDialog 
+        open={addDialogOpen} 
+        onOpenChange={setAddDialogOpen} 
+        onSave={handleAddProject}
+        nextId={getNextId()}
+      />
       
       <div className="border-b border-border">
         <div className="container mx-auto px-6">
@@ -218,14 +235,25 @@ const Index = () => {
                 </TabsTrigger>
               </TabsList>
               
-              <Button variant="ghost" size="sm" className="gap-2">
-                Featured Shots <ChevronDown className="w-4 h-4" />
-              </Button>
+              <div className="flex gap-2">
+                <Button 
+                  variant="default" 
+                  size="sm" 
+                  className="gap-2"
+                  onClick={() => setAddDialogOpen(true)}
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Project
+                </Button>
+                <Button variant="ghost" size="sm" className="gap-2">
+                  Featured Shots <ChevronDown className="w-4 h-4" />
+                </Button>
+              </div>
             </div>
 
             <TabsContent value="projects" className="py-12">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {portfolioItems.map((item) => (
+                {allProjects.map((item) => (
                   <PortfolioItem
                     key={item.id}
                     image={item.image}
