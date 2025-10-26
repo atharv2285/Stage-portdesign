@@ -1,9 +1,9 @@
 // Vercel serverless function entry point
 // This file is used only for Vercel deployments
 
-const express = require('express');
-const cors = require('cors');
-const { Octokit } = require('@octokit/rest');
+import express from 'express';
+import cors from 'cors';
+import { Octokit } from '@octokit/rest';
 
 const app = express();
 
@@ -496,4 +496,4 @@ app.use((req, res) => {
 });
 
 // Export the Express app for Vercel serverless functions
-module.exports = app;
+export default app;

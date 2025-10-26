@@ -1,0 +1,29 @@
+Time
+Status
+Host
+Request
+Messages
+Oct 26 17:28:46.31
+GET
+500
+stage-nine-sigma.vercel.app
+/api/leetcode/user/Peachman22
+ReferenceError: require is not defined in ES module scope, you can use import instead This file is being treated as an ES module because it has a '.js' file extension and '/var/task/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension. at file:///var/task/api/index.js:4:17 at ModuleJob.run (node:internal/modules/esm/module_job:343:25) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26) at async d (/opt/rust/nodejs.js:16:21178) Node.js process exited with exit status: 1. The logs above can help with debugging the issue. ReferenceError: require is not defined in ES module scope, you can use import instead This file is being treated as an ES module because it has a '.js' file extension and '/var/task/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension. at file:///var/task/api/index.js:4:17 at ModuleJob.run (node:internal/modules/esm/module_job:343:25) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26) at async d (/opt/rust/nodejs.js:16:21178) Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 26 17:28:42.72
+GET
+500
+stage-nine-sigma.vercel.app
+/api/leetcode/user/Peac
+ReferenceError: require is not defined in ES module scope, you can use import instead This file is being treated as an ES module because it has a '.js' file extension and '/var/task/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension. at file:///var/task/api/index.js:4:17 at ModuleJob.run (node:internal/modules/esm/module_job:343:25) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26) at async d (/opt/rust/nodejs.js:16:21178) Node.js process exited with exit status: 1. The logs above can help with debugging the issue. ReferenceError: require is not defined in ES module scope, you can use import instead This file is being treated as an ES module because it has a '.js' file extension and '/var/task/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension. at file:///var/task/api/index.js:4:17 at ModuleJob.run (node:internal/modules/esm/module_job:343:25) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26) at async d (/opt/rust/nodejs.js:16:21178) Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 26 17:28:32.60
+GET
+500
+stage-nine-sigma.vercel.app
+/api/github/oauth/authorize
+ReferenceError: require is not defined in ES module scope, you can use import instead This file is being treated as an ES module because it has a '.js' file extension and '/var/task/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension. at file:///var/task/api/index.js:4:17 at ModuleJob.run (node:internal/modules/esm/module_job:343:25) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26) at async d (/opt/rust/nodejs.js:16:21178) Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 26 17:28:30.75
+GET
+500
+stage-nine-sigma.vercel.app
+/api/github/oauth/authorize
+ReferenceError: require is not defined in ES module scope, you can use import instead This file is being treated as an ES module because it has a '.js' file extension and '/var/task/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension. at file:///var/task/api/index.js:4:17 at ModuleJob.run (node:internal/modules/esm/module_job:343:25) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26) at async d (/opt/rust/nodejs.js:16:21178) Node.js process exited with exit status: 1. The logs above can help with debugging the issue. ReferenceError: require is not defined in ES module scope, you can use import instead This file is being treated as an ES module because it has a '.js' file extension and '/var/task/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension. at file:///var/task/api/index.js:4:17 at ModuleJob.run (node:internal/modules/esm/module_job:343:25) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26) at async d (/opt/rust/nodejs.js:16:21178) Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
