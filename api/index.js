@@ -1,9 +1,11 @@
-import express from 'express';
-import cors from 'cors';
-import { Octokit } from '@octokit/rest';
+// Vercel serverless function entry point
+// This file is used only for Vercel deployments
+
+const express = require('express');
+const cors = require('cors');
+const { Octokit } = require('@octokit/rest');
 
 const app = express();
-const PORT = Number(process.env.PORT) || 3001;
 
 app.use(cors());
 app.use(express.json());
@@ -11,10 +13,7 @@ app.use(express.json());
 // GitHub OAuth configuration
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID || '';
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET || '';
-const OAUTH_REDIRECT_URI = process.env.OAUTH_REDIRECT_URI || 'http://localhost:5000/github-callback';
-
-// Removed Replit-specific authentication
-// All authentication now requires user-provided tokens via Authorization header
+const OAUTH_REDIRECT_URI = process.env.OAUTH_REDIRECT_URI || '';
 
 // OAuth endpoints for universal GitHub authentication
 app.get('/api/github/oauth/authorize', (req, res) => {
@@ -52,7 +51,7 @@ app.post('/api/github/oauth/token', async (req, res) => {
     }
 
     res.json({ access_token: data.access_token });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Failed to exchange token:', error);
     res.status(500).json({ 
       error: error.message || 'Failed to exchange authorization code',
@@ -79,7 +78,7 @@ app.get('/api/github/repos', async (req, res) => {
       visibility: 'all'
     });
     res.json(data);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Failed to fetch repos:', error);
     res.status(500).json({ 
       error: error.message || 'Failed to fetch repositories',
@@ -101,7 +100,7 @@ app.get('/api/github/user', async (req, res) => {
     
     const { data: user } = await octokit.users.getAuthenticated();
     res.json(user);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Failed to fetch user:', error);
     res.status(500).json({ 
       error: error.message || 'Failed to fetch user profile',
@@ -143,7 +142,7 @@ app.get('/api/github/repos/:owner/:repo', async (req, res) => {
       readme,
       languages
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Failed to fetch repo details:', error);
     res.status(500).json({ 
       error: error.message || 'Failed to fetch repository details',
@@ -200,7 +199,7 @@ app.get('/api/leetcode/user/:username', async (req, res) => {
     }
 
     res.json(data.data.matchedUser);
-  } catch (error: any) {
+  } catch (error) {
     console.error('LeetCode API error:', error);
     res.status(500).json({ error: error.message || 'Failed to fetch LeetCode stats' });
   }
@@ -230,13 +229,13 @@ app.get('/api/youtube/channel/:channelId', async (req, res) => {
     }
 
     res.json(data.items[0]);
-  } catch (error: any) {
+  } catch (error) {
     console.error('YouTube API error:', error);
     res.status(500).json({ error: error.message || 'Failed to fetch YouTube stats' });
   }
 });
 
-// YouTube search endpoint (to find channel by name)
+// YouTube search endpoint
 app.get('/api/youtube/search', async (req, res) => {
   try {
     const { query } = req.query;
@@ -250,7 +249,7 @@ app.get('/api/youtube/search', async (req, res) => {
       return res.status(400).json({ error: 'Search query is required' });
     }
 
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${encodeURIComponent(query as string)}&key=${apiKey}&maxResults=5`;
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${encodeURIComponent(query)}&key=${apiKey}&maxResults=5`;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -259,7 +258,7 @@ app.get('/api/youtube/search', async (req, res) => {
 
     const data = await response.json();
     res.json(data.items || []);
-  } catch (error: any) {
+  } catch (error) {
     console.error('YouTube search error:', error);
     res.status(500).json({ error: error.message || 'Failed to search channels' });
   }
@@ -296,7 +295,7 @@ app.post('/api/linkedin/profile', async (req, res) => {
 
     const data = await response.json();
     res.json(data);
-  } catch (error: any) {
+  } catch (error) {
     console.error('LinkedIn API error:', error);
     res.status(500).json({ error: error.message || 'Failed to fetch LinkedIn profile' });
   }
@@ -343,13 +342,13 @@ app.get('/api/codeforces/user/:handle', async (req, res) => {
       ...user,
       totalContests,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Codeforces API error:', error);
     res.status(500).json({ error: error.message || 'Failed to fetch Codeforces stats' });
   }
 });
 
-// Zerodha Kite Connect endpoints
+// Zerodha endpoints
 app.get('/api/zerodha/holdings', async (req, res) => {
   try {
     const accessToken = req.headers.authorization?.replace('Bearer ', '');
@@ -371,7 +370,7 @@ app.get('/api/zerodha/holdings', async (req, res) => {
 
     const data = await response.json();
     res.json(data);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Zerodha holdings error:', error);
     res.status(500).json({ error: error.message || 'Failed to fetch holdings' });
   }
@@ -398,16 +397,15 @@ app.get('/api/zerodha/positions', async (req, res) => {
 
     const data = await response.json();
     res.json(data);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Zerodha positions error:', error);
     res.status(500).json({ error: error.message || 'Failed to fetch positions' });
   }
 });
 
-// Market data endpoint - using free Yahoo Finance style API
+// Market data endpoint
 app.get('/api/market/indices', async (req, res) => {
   try {
-    // Using NSE indices data
     const indices = [
       { symbol: 'NIFTY 50', value: 22450.50, change: 125.30, changePercent: 0.56 },
       { symbol: 'SENSEX', value: 74250.25, change: 420.15, changePercent: 0.57 },
@@ -415,7 +413,7 @@ app.get('/api/market/indices', async (req, res) => {
     ];
     
     res.json(indices);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Market indices error:', error);
     res.status(500).json({ error: 'Failed to fetch market data' });
   }
@@ -430,7 +428,6 @@ app.get('/api/company/search', async (req, res) => {
       return res.status(400).json({ error: 'Company query parameter is required' });
     }
 
-    // Use Brandfetch Search API to find companies
     const searchResponse = await fetch(
       `https://api.brandfetch.io/v2/search/${encodeURIComponent(query)}`,
       {
@@ -446,8 +443,7 @@ app.get('/api/company/search', async (req, res) => {
 
     const results = await searchResponse.json();
     
-    // Format the results for frontend
-    const companies = results.map((item: any) => ({
+    const companies = results.map((item) => ({
       name: item.name,
       domain: item.domain,
       icon: item.icon || `https://img.logo.dev/${item.domain}?token=pk_K9f7eo8kTJ6Z_hhQYR9LGQ`,
@@ -455,8 +451,8 @@ app.get('/api/company/search', async (req, res) => {
       industry: item.industry || ''
     }));
 
-    res.json({ companies: companies.slice(0, 10) }); // Return top 10 results
-  } catch (error: any) {
+    res.json({ companies: companies.slice(0, 10) });
+  } catch (error) {
     console.error('Company search failed:', error);
     res.status(500).json({ 
       error: 'Failed to search companies',
@@ -465,7 +461,6 @@ app.get('/api/company/search', async (req, res) => {
   }
 });
 
-// Get company logo by domain
 app.get('/api/company/logo', async (req, res) => {
   try {
     const { domain } = req.query;
@@ -474,11 +469,10 @@ app.get('/api/company/logo', async (req, res) => {
       return res.status(400).json({ error: 'Domain parameter is required' });
     }
 
-    // Logo.dev provides free logo access (no API key needed for basic use)
     const logoUrl = `https://img.logo.dev/${domain}?token=pk_K9f7eo8kTJ6Z_hhQYR9LGQ`;
     
     res.json({ logoUrl });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Logo fetch failed:', error);
     res.status(500).json({ 
       error: 'Failed to fetch company logo',
@@ -491,6 +485,5 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Backend server is running' });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Backend server running on http://0.0.0.0:${PORT}`);
-});
+// Export the Express app for Vercel serverless functions
+module.exports = app;

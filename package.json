@@ -9,6 +9,8 @@
     "dev:backend": "bun run server/index.ts",
     "build": "vite build",
     "build:dev": "vite build --mode development",
+    "start": "node server/index.js",
+    "build:server": "tsc server/index.ts --outDir server --module commonjs --target es2020 --moduleResolution node --esModuleInterop --skipLibCheck",
     "lint": "eslint .",
     "preview": "vite preview"
   },

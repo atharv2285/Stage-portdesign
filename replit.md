@@ -4,6 +4,18 @@ This is a professional portfolio web application built with React, TypeScript, a
 
 The portfolio serves as a comprehensive digital resume and project showcase, allowing users to present their work in a visually appealing and organized manner.
 
+## Recent Changes (October 26, 2025)
+
+### Universal Deployment Setup
+- **Removed Replit-specific dependencies** from backend authentication
+- **Created Vercel serverless configuration** (vercel.json + api/index.js)
+- **Added Render deployment config** (render.yaml)
+- **Updated package.json** with production build scripts
+- **Created comprehensive DEPLOYMENT.md** guide covering Vercel, Render, and Railway
+- **Backend now works universally** - accepts user OAuth tokens via Authorization header
+- **No more platform lock-in** - deploy anywhere (Vercel, Render, Railway, Netlify, etc.)
+- **GitHub OAuth** works on any platform with proper environment variables
+
 ## Recent Changes (October 25, 2025)
 
 ### Achievement Badges Feature
@@ -59,11 +71,18 @@ The portfolio serves as a comprehensive digital resume and project showcase, all
 - Form data properly resets when dialog is closed or canceled
 
 ### Architecture Updates
-- Frontend (Vite) runs on port 5000
-- Backend (Express) runs on port 3001
+- Frontend (Vite) runs on port 5000 (development)
+- Backend (Express) runs on port 3001 (development)
 - Vite proxy configured to forward /api requests to backend
 - Both servers run concurrently via `bun run dev` command
 - Frontend uses relative URLs (/api/*) for API calls to work across all hosting platforms
+
+### Deployment Architecture
+- **Vercel**: Serverless backend (api/index.js) + Static frontend (dist/)
+- **Render/Railway**: Traditional Node.js server (server/index.js) serving both API and static files
+- **Production builds**: `npm run build` creates optimized React bundle in /dist
+- **Backend compilation**: TypeScript server compiled to JavaScript for production
+- **Environment variables**: All API keys and secrets configured via hosting platform dashboards
 
 # User Preferences
 
@@ -108,9 +127,11 @@ Preferred communication style: Simple, everyday language.
 - Prevents exposure of authentication tokens to the client
 
 **Authentication Flow**
-- Uses Replit Connectors system for GitHub OAuth
-- Server retrieves access tokens via environment variables (`REPL_IDENTITY`, `WEB_REPL_RENEWAL`)
-- Tokens are cached and refreshed automatically when expired
+- **Universal GitHub OAuth** implementation that works on any hosting platform
+- OAuth flow: Client → GitHub → Callback → Token Exchange → Access Token
+- Backend exchanges authorization codes for access tokens
+- User tokens passed via Authorization header for API calls
+- No platform-specific dependencies (previously used Replit Connectors for development)
 - Access tokens never exposed to frontend
 
 ## External Dependencies
