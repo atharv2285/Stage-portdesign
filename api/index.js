@@ -16,14 +16,14 @@ const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET || '';
 const OAUTH_REDIRECT_URI = process.env.OAUTH_REDIRECT_URI || '';
 
 // OAuth endpoints for universal GitHub authentication
-// Note: Routes don't include /api prefix because Vercel routing handles that
-app.get('/github/oauth/authorize', (req, res) => {
+// Note: In Vercel, /api/index.js handles all /api/* routes
+app.get('/api/github/oauth/authorize', (req, res) => {
   const state = Math.random().toString(36).substring(7);
   const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(OAUTH_REDIRECT_URI)}&scope=repo,read:user,user:email&state=${state}`;
   res.json({ authUrl: githubAuthUrl, state });
 });
 
-app.post('/github/oauth/token', async (req, res) => {
+app.post('/api/github/oauth/token', async (req, res) => {
   try {
     const { code } = req.body;
     
@@ -62,7 +62,7 @@ app.post('/github/oauth/token', async (req, res) => {
 });
 
 // Updated repos endpoint to accept user token
-app.get('/github/repos', async (req, res) => {
+app.get('/api/github/repos', async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
     
@@ -88,7 +88,7 @@ app.get('/github/repos', async (req, res) => {
   }
 });
 
-app.get('/github/user', async (req, res) => {
+app.get('/api/github/user', async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
     
@@ -110,7 +110,7 @@ app.get('/github/user', async (req, res) => {
   }
 });
 
-app.get('/github/repos/:owner/:repo', async (req, res) => {
+app.get('/api/github/repos/:owner/:repo', async (req, res) => {
   try {
     const { owner, repo } = req.params;
     const authHeader = req.headers.authorization;
@@ -153,7 +153,7 @@ app.get('/github/repos/:owner/:repo', async (req, res) => {
 });
 
 // LeetCode API endpoint (no authentication required)
-app.get('/leetcode/user/:username', async (req, res) => {
+app.get('/api/leetcode/user/:username', async (req, res) => {
   try {
     const { username } = req.params;
     
@@ -207,7 +207,7 @@ app.get('/leetcode/user/:username', async (req, res) => {
 });
 
 // YouTube API endpoint (requires YOUTUBE_API_KEY)
-app.get('/youtube/channel/:channelId', async (req, res) => {
+app.get('/api/youtube/channel/:channelId', async (req, res) => {
   try {
     const { channelId } = req.params;
     const apiKey = process.env.YOUTUBE_API_KEY;
@@ -237,7 +237,7 @@ app.get('/youtube/channel/:channelId', async (req, res) => {
 });
 
 // YouTube search endpoint
-app.get('/youtube/search', async (req, res) => {
+app.get('/api/youtube/search', async (req, res) => {
   try {
     const { query } = req.query;
     const apiKey = process.env.YOUTUBE_API_KEY;
@@ -266,7 +266,7 @@ app.get('/youtube/search', async (req, res) => {
 });
 
 // LinkedIn API endpoint (requires RAPIDAPI_KEY)
-app.post('/linkedin/profile', async (req, res) => {
+app.post('/api/linkedin/profile', async (req, res) => {
   try {
     const { profileUrl } = req.body;
     const rapidApiKey = process.env.RAPIDAPI_KEY;
@@ -303,7 +303,7 @@ app.post('/linkedin/profile', async (req, res) => {
 });
 
 // Codeforces API endpoint (no authentication required)
-app.get('/codeforces/user/:handle', async (req, res) => {
+app.get('/api/codeforces/user/:handle', async (req, res) => {
   try {
     const { handle } = req.params;
     
@@ -350,7 +350,7 @@ app.get('/codeforces/user/:handle', async (req, res) => {
 });
 
 // Zerodha endpoints
-app.get('/zerodha/holdings', async (req, res) => {
+app.get('/api/zerodha/holdings', async (req, res) => {
   try {
     const accessToken = req.headers.authorization?.replace('Bearer ', '');
     
@@ -377,7 +377,7 @@ app.get('/zerodha/holdings', async (req, res) => {
   }
 });
 
-app.get('/zerodha/positions', async (req, res) => {
+app.get('/api/zerodha/positions', async (req, res) => {
   try {
     const accessToken = req.headers.authorization?.replace('Bearer ', '');
     
@@ -405,7 +405,7 @@ app.get('/zerodha/positions', async (req, res) => {
 });
 
 // Market data endpoint
-app.get('/market/indices', async (req, res) => {
+app.get('/api/market/indices', async (req, res) => {
   try {
     const indices = [
       { symbol: 'NIFTY 50', value: 22450.50, change: 125.30, changePercent: 0.56 },
@@ -421,7 +421,7 @@ app.get('/market/indices', async (req, res) => {
 });
 
 // Company logo and info endpoint using Brandfetch (free API)
-app.get('/company/search', async (req, res) => {
+app.get('/api/company/search', async (req, res) => {
   try {
     const { query } = req.query;
     
@@ -462,7 +462,7 @@ app.get('/company/search', async (req, res) => {
   }
 });
 
-app.get('/company/logo', async (req, res) => {
+app.get('/api/company/logo', async (req, res) => {
   try {
     const { domain } = req.query;
     
@@ -482,7 +482,7 @@ app.get('/company/logo', async (req, res) => {
   }
 });
 
-app.get('/health', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Backend server is running' });
 });
 
