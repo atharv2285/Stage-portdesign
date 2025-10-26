@@ -31,9 +31,30 @@ export const Investments = () => {
   const [totalPnLPercent, setTotalPnLPercent] = useState(0);
 
   useEffect(() => {
+    // Check if user is already connected
+    const accessToken = localStorage.getItem('zerodha_access_token');
+    if (accessToken) {
+      setIsConnected(true);
+      fetchHoldings(accessToken);
+    }
+    
+    // Listen for Zerodha OAuth success
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data.type === 'ZERODHA_AUTH_SUCCESS') {
+        setIsConnected(true);
+        fetchHoldings(event.data.accessToken);
+        toast.success("Successfully connected to Zerodha!");
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    
     fetchMarketIndices();
     const interval = setInterval(fetchMarketIndices, 30000); // Update every 30 seconds
-    return () => clearInterval(interval);
+    
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('message', handleMessage);
+    };
   }, []);
 
   const fetchMarketIndices = async () => {
@@ -48,8 +69,54 @@ export const Investments = () => {
     }
   };
 
-  const connectZerodha = () => {
-    toast.info("Zerodha integration coming soon! You'll be able to connect your Kite account here.");
+  const fetchHoldings = async (accessToken: string) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/zerodha/holdings', {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        const holdingsData = data.data || [];
+        setHoldings(holdingsData);
+        
+        // Calculate totals
+        const total = holdingsData.reduce((sum: number, h: any) => sum + (h.last_price * h.quantity), 0);
+        const pnl = holdingsData.reduce((sum: number, h: any) => sum + h.pnl, 0);
+        const pnlPercent = total > 0 ? (pnl / (total - pnl)) * 100 : 0;
+        
+        setTotalValue(total);
+        setTotalPnL(pnl);
+        setTotalPnLPercent(pnlPercent);
+      } else {
+        toast.error("Failed to fetch holdings from Zerodha");
+        localStorage.removeItem('zerodha_access_token');
+        setIsConnected(false);
+      }
+    } catch (error) {
+      console.error('Failed to fetch holdings:', error);
+      toast.error("Error fetching holdings");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const connectZerodha = async () => {
+    try {
+      const response = await fetch('/api/zerodha/oauth/authorize');
+      if (response.ok) {
+        const { authUrl } = await response.json();
+        window.location.href = authUrl;
+      } else {
+        toast.error("Failed to initiate Zerodha connection. Make sure ZERODHA_API_KEY is configured.");
+      }
+    } catch (error) {
+      console.error('Zerodha auth error:', error);
+      toast.error("Failed to connect to Zerodha");
+    }
   };
 
   // Demo data for UI showcase

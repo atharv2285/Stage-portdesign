@@ -349,6 +349,76 @@ app.get('/api/codeforces/user/:handle', async (req, res) => {
   }
 });
 
+// Zerodha OAuth endpoints
+app.get('/api/zerodha/oauth/authorize', (req, res) => {
+  const apiKey = process.env.ZERODHA_API_KEY;
+  
+  if (!apiKey) {
+    return res.status(400).json({ error: 'Zerodha API key not configured' });
+  }
+
+  // Zerodha callback URL - adjust based on environment
+  const baseUrl = process.env.OAUTH_REDIRECT_URI 
+    ? process.env.OAUTH_REDIRECT_URI.replace('/github-callback', '') 
+    : 'http://localhost:5000';
+  const zerodhaAuthUrl = `https://kite.zerodha.com/connect/login?api_key=${apiKey}&redirect_params=${encodeURIComponent(baseUrl + '/zerodha-callback')}`;
+  
+  res.json({ authUrl: zerodhaAuthUrl });
+});
+
+app.post('/api/zerodha/oauth/token', async (req, res) => {
+  try {
+    const { requestToken } = req.body;
+    const apiKey = process.env.ZERODHA_API_KEY;
+    const apiSecret = process.env.ZERODHA_API_SECRET;
+
+    if (!apiKey || !apiSecret) {
+      return res.status(400).json({ error: 'Zerodha API credentials not configured' });
+    }
+
+    if (!requestToken) {
+      return res.status(400).json({ error: 'Request token is required' });
+    }
+
+    // Generate checksum: sha256(api_key + request_token + api_secret)
+    const crypto = await import('crypto');
+    const checksum = crypto.createHash('sha256')
+      .update(apiKey + requestToken + apiSecret)
+      .digest('hex');
+
+    // Exchange request token for access token
+    const tokenResponse = await fetch('https://api.kite.trade/session/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-Kite-Version': '3'
+      },
+      body: new URLSearchParams({
+        api_key: apiKey,
+        request_token: requestToken,
+        checksum: checksum
+      })
+    });
+
+    const data = await tokenResponse.json();
+
+    if (data.status === 'error') {
+      return res.status(400).json({ error: data.message || 'Failed to get access token' });
+    }
+
+    res.json({ 
+      access_token: data.data.access_token,
+      user_id: data.data.user_id
+    });
+  } catch (error) {
+    console.error('Zerodha token exchange error:', error);
+    res.status(500).json({ 
+      error: error.message || 'Failed to exchange token',
+      details: error.toString()
+    });
+  }
+});
+
 // Zerodha endpoints
 app.get('/api/zerodha/holdings', async (req, res) => {
   try {
