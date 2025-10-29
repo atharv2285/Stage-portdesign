@@ -1,5 +1,13 @@
 import { useState, useEffect } from 'react';
-import { TimelineEntry } from '@/components/Timeline';
+
+export interface TimelineEntry {
+  id: string;
+  title: string;
+  date: string;
+  tag: 'learning' | 'building' | 'completed' | 'achievement' | 'work';
+  description: string;
+  link?: string;
+}
 
 const STORAGE_KEY = 'portfolio_timeline';
 

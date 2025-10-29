@@ -4,17 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Edit, Trash2, ExternalLink, Calendar } from 'lucide-react';
 import { TimelineDialog } from './TimelineDialog';
-import { useTimelineStorage } from '@/hooks/useTimelineStorage';
+import { useTimelineStorage, TimelineEntry } from '@/hooks/useTimelineStorage';
 import { toast } from '@/hooks/use-toast';
-
-export interface TimelineEntry {
-  id: string;
-  title: string;
-  date: string; // ISO date string or "Ongoing"
-  tag: 'learning' | 'building' | 'completed' | 'achievement' | 'work';
-  description: string;
-  link?: string;
-}
 
 const tagVariants: Record<TimelineEntry['tag'], { label: string; variant: 'default' | 'secondary' | 'outline' }> = {
   learning: { label: '📚 Learning', variant: 'secondary' },
