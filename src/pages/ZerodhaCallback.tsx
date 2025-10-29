@@ -57,7 +57,11 @@ export const ZerodhaCallback = () => {
         }
 
         setTimeout(() => {
-          window.close() || navigate('/');
+          if (window.opener && !window.opener.closed) {
+            window.close();
+          } else {
+            navigate('/');
+          }
         }, 2000);
       } catch (error: any) {
         console.error('Zerodha OAuth error:', error);

@@ -11,6 +11,7 @@ import { Resume } from "@/components/Resume";
 import { Competitions } from "@/components/Competitions";
 import { ExternalProfiles } from "@/components/ExternalProfiles";
 import { Investments } from "@/components/Investments";
+import { Timeline } from "@/components/Timeline";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
@@ -242,6 +243,13 @@ const Index = () => {
                 >
                   Linked Profiles
                 </TabsTrigger>
+                <TabsTrigger 
+                  value="timeline"
+                  className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4"
+                  data-testid="tab-timeline"
+                >
+                  Timeline
+                </TabsTrigger>
               </TabsList>
             </div>
 
@@ -299,6 +307,10 @@ const Index = () => {
 
             <TabsContent value="profiles" className="py-12">
               <ExternalProfiles key={activeTab === 'profiles' ? 'refresh' : 'inactive'} />
+            </TabsContent>
+
+            <TabsContent value="timeline" className="py-12">
+              <Timeline />
             </TabsContent>
           </Tabs>
         </div>
